@@ -1,0 +1,8 @@
+.zsh_sessions
+.zcomp*
+.cache
+.zdirs
+.zsh_history
+.iterm2*
+.zfunctions/*
+
