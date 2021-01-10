@@ -1,0 +1,4 @@
+[submodule "/Users/anhdle14/.emacs.d"]
+	path = /Users/anhdle14/.emacs.d
+	url = https://github.com/hlissner/doom-emacs
+	ignore = dirty
