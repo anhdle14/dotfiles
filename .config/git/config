@@ -114,7 +114,7 @@
 	smudge = "git media smudge %f"
 
 [gpg]
-	program = "gpg2"
+	program = gpg
 
 [interactive]
 	diffFilter = "delta --color-only"
@@ -146,5 +146,6 @@
 	email = "anhdle14@icloud.com"
 	name = "Le Anh Duc"
 	signingKey = "0x0299AFF9ECBB5169"
+
 [delta]
 	side-by-side = true
