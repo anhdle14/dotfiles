@@ -30,8 +30,8 @@
        :ui
        deft                                   ; notational velocity for Emacs
        doom                                     ; what makes DOOM look the way it does
-       doom-dashboard                           ; a nifty splash screen for Emacs
-       doom-quit                                ; DOOM quit-message prompts when you quit Emacs
+       ;;doom-dashboard                           ; a nifty splash screen for Emacs
+       ;;doom-quit                                ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)                         ; 🙂
        fill-column                              ; a `fill-column' indicator
        hl-todo                                  ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
@@ -41,9 +41,10 @@
        minimap                                  ; show a map of the code on the side
        modeline                                 ; snazzy, Atom-inspired modeline, plus API
        nav-flash                                ; blink cursor line after big motions
-       neotree                                  ; a project drawer, like NERDTree for vim
+       ;;neotree                                  ; a project drawer, like NERDTree for vim
        ophints                                  ; highlight the region an operation acts on
-       (popup +defaults)                        ; tame sudden yet inevitable temporary windows
+       (popup +all
+              +defaults)                        ; tame sudden yet inevitable temporary windows
        tabs                                     ; a tab bar for Emacs
        treemacs                                 ; a project drawer, like neotree but cooler
        unicode                                  ; extended unicode support for various languages
@@ -68,10 +69,10 @@
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired +icons)    ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        ibuffer           ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes
+       (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -94,7 +95,8 @@
        ein                 ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        gist                ; interacting with github gists
-       lookup              ; navigate your code and its documentation
+       (lookup +dictionary
+               +docsets)              ; navigate your code and its documentation
        (lsp +peek)
        magit               ; a git porcelain for Emacs
        ;; (after! magit       ; a git porcelain for Emacs
@@ -150,9 +152,21 @@
        ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
        (ocaml +lsp)             ; an objective camel
-       org               ; organize your plain life in plain text
-       ;;php               ; perl's insecure younger brother
-       ;;plantuml          ; diagrams for confusing people more
+       org
+       ;; (org +brain
+       ;;      +dragndrop
+       ;;      +gnuplot
+       ;;      +hugo
+       ;;      +journal
+       ;;      +jupyter
+       ;;      +noter
+       ;;      +pandoc
+       ;;      +pomodoro
+       ;;      +present
+       ;;      +pretty
+       ;;      +roam)               ; organize your plain life in plain text
+       ;; php               ; perl's insecure younger brother
+       plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        python            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
@@ -178,10 +192,10 @@
        ;;(wanderlust +gmail)
 
        :app
-       calendar
+       ;;calendar
        irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
-       twitter           ; twitter client https://twitter.com/vnought
+       ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
        ;;literate
