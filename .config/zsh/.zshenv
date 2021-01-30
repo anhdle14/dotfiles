@@ -26,12 +26,8 @@
 # no xsource() here because it's only created in zshrc! (which is good)
 [[ -r /etc/environment ]] && source /etc/environment
 
-if [ -n "${LANG}" ] ; then
-  export LANG=en_US.UTF-8
-fi
-if [ -n "${LC_CTYPE}" ] ; then
-  export LC_CTYPE=en_US.UTF-8
-fi
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 
 # set environment variables (important for autologin on tty)
 if [ -n "${HOSTNAME}" ] ; then

@@ -56,6 +56,7 @@
     less
     more
     most
+    libtool
 
     # bazel
     emscripten
