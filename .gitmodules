@@ -1,10 +1,10 @@
-[submodule "/Users/anhdle14/.emacs.d"]
-	path = /Users/anhdle14/.emacs.d
+[submodule ".emacs.d"]
+	path = .emacs.d
 	url = https://github.com/hlissner/doom-emacs
 	ignore = dirty
-[submodule "/Users/anhdle14/.config/dotfiles/submodules/.tmux"]
-	path = /Users/anhdle14/.config/dotfiles/submodules/.tmux
+[submodule ".config/dotfiles/submodules/.tmux"]
+	path = .config/dotfiles/submodules/.tmux
 	url = https://github.com/gpakosz/.tmux.git
-[submodule "/Users/anhdle14/.config/dotfiles/submodules/powerlevel10k"]
-	path = /Users/anhdle14/.config/dotfiles/submodules/powerlevel10k
+[submodule ".config/dotfiles/submodules/powerlevel10k"]
+	path = .config/dotfiles/submodules/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
