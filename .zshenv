@@ -92,6 +92,8 @@ if (( EUID != 0 )); then
     Darwin)
       path=(
         # Overwrite from users
+        /usr/sbin
+        /usr/bin
         $HOME/bin
         $HOME/homebrew/bin
         $HOME/.rbenv/bin

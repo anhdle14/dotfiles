@@ -356,3 +356,10 @@ function ssl-cert-info () {
   openssl x509 -noout -text -in $1
   ssl-cert-fingerprints $1
 }
+
+## jdk
+jdk() {
+  version=$1
+  export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
+  java -version
+}

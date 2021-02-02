@@ -29,6 +29,12 @@ case $(uname 2>/dev/null) in
     export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
     export ANDROID_HOME=$ANDROID_SDK_ROOT
 
+    ## MacPrefs
+    export MACPREFS_BACKUP_DIR="$HOME/backups/macprefs"
+
+    ## Homebrew Bundle
+    export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
+
     ## Iterm2
     export ITERM2_SQUELCH_MARK=1
     ;;
