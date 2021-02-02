@@ -1,10 +1,13 @@
 [submodule ".emacs.d"]
 	path = .emacs.d
 	url = https://github.com/hlissner/doom-emacs
+    branch = develop
 	ignore = dirty
 [submodule ".config/dotfiles/submodules/.tmux"]
 	path = .config/dotfiles/submodules/.tmux
 	url = https://github.com/gpakosz/.tmux.git
+    branch = master
 [submodule ".config/dotfiles/submodules/powerlevel10k"]
 	path = .config/dotfiles/submodules/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
+    branch = master
