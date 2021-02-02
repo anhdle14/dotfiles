@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>absentCircleWithNoReason</key>
+	<false/>
+	<key>applicationDate</key>
+	<date>2021-02-02T00:51:53Z</date>
+	<key>lastCircleStatus</key>
+	<integer>0</integer>
+	<key>lastWritten</key>
+	<date>2021-02-02T01:46:56Z</date>
+	<key>pendingApplicationReminder</key>
+	<date>2021-02-03T00:51:53Z</date>
+	<key>pendingApplicationReminderInterval</key>
+	<integer>86400</integer>
+</dict>
+</plist>
