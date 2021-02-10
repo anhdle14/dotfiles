@@ -13,6 +13,27 @@
 
 ################################################################################
 
+if [ -f $XDG_CONFIG_HOME/gnupg/gpg-agent.conf ]; then
+  case $(uname 2>/dev/null) in
+    Darwin)
+      _pinentry=pinentry-mac
+      # brew install gnu-sed
+      gsed -i "s|^.*pinentry-program.*$|pinentry-program `which $_pinentry`|" ~/.config/gnupg/gpg-agent.conf
+      ;;
+    *)
+      _pinentry=pinentry
+      sed -i "s|^.*pinentry-program.*$|pinentry-program `which $_pinentry`|" ~/.config/gnupg/gpg-agent.conf
+      ;;
+  esac
+fi
+gpgconf --launch gpg-agent
+
+# Start Emacs if it is not running as Daemon
+if [ "$(lsof -c Emacs -c emacs | grep server | tr -s " " | cut -d' ' -f8)" = "" ];
+ then
+  command emacs --daemon &>/dev/null
+fi
+
 case $(uname 2>/dev/null) in
   Darwin)
     # Homebrew

@@ -145,25 +145,5 @@ export GNUPGHOME=$XDG_CONFIG_HOME/gnupg
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
-if [ -x $XDG_CONFIG_HOME/gnupg/gpg-agent.conf ]; then
-  case $(uname 2>/dev/null) in
-    Darwin)
-      _pinentry=pinentry-mac
-      ;;
-    *)
-      _pinentry=pinentry
-      ;;
-  esac
-
-  sed -i "s|^.*pinentry-program.*$|pinentry-program `which $_pinentry`|" ~/.config/gnupg/gpg-agent.conf
-fi
-gpgconf --launch gpg-agent
-
-# Start Emacs if it is not running as Daemon
-if [ "$(lsof -c Emacs -c emacs | grep server | tr -s " " | cut -d' ' -f8)" = "" ];
- then
-  command emacs --daemon &>/dev/null
-fi
-
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
