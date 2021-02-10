@@ -19,8 +19,8 @@ case $(uname 2>/dev/null) in
     export HOMEBREW_NO_ANALYTICS=1
     export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 
-    # Brew
-    eval $(brew shellenv)
+    ## Homebrew Bundle
+    export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
 
     ## Java
     export JAVA_HOME=`/usr/libexec/java_home`
@@ -31,9 +31,9 @@ case $(uname 2>/dev/null) in
 
     ## MacPrefs
     export MACPREFS_BACKUP_DIR="$HOME/backups/macprefs"
-
-    ## Homebrew Bundle
-    export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
+    
+    ## Azure Functions
+    export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
 
     ## Iterm2
     export ITERM2_SQUELCH_MARK=1

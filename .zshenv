@@ -90,20 +90,21 @@ esac
 if (( EUID != 0 )); then
   case $(uname 2>/dev/null) in
     Darwin)
+      # Brew
+      eval $($HOME/homebrew/bin/brew shellenv)
+
       path=(
+        # Tj/n
+        $N_PREFIX/bin
+
         # Overwrite from users
         /usr/sbin
         /usr/bin
         $HOME/bin
-        $HOME/homebrew/bin
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
-        $HOME/go/bin
-        # Doom Emacs
         $HOME/.emacs.d/bin
-
-        # Tj/n
-        $N_PREFIX/bin
+        $HOME/go/bin
 
         ${ADDONS}
         ${path[@]}
@@ -157,7 +158,6 @@ if [ -x $XDG_CONFIG_HOME/gnupg/gpg-agent.conf ]; then
   sed -i "s|^.*pinentry-program.*$|pinentry-program `which $_pinentry`|" ~/.config/gnupg/gpg-agent.conf
 fi
 gpgconf --launch gpg-agent
-
 
 # Start Emacs if it is not running as Daemon
 if [ "$(lsof -c Emacs -c emacs | grep server | tr -s " " | cut -d' ' -f8)" = "" ];
