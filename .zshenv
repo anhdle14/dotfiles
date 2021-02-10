@@ -68,45 +68,34 @@ export VISUAL="emacsclient -c -a"               # $VISUAL opens in GUI mode
 
 export N_PREFIX="$HOME/n";
 
-# Solaris
-case $(uname 2>/dev/null) in
-  SunOS)
-    path=(
-      /usr/bin
-      /usr/sbin
-      /usr/ccs/bin
-      /opt/SUNWspro/bin
-      /usr/ucb
-      /usr/sfw/bin
-      /usr/gnu/bin
-      /usr/openwin/bin
-      /opt/csw/bin
-      /sbin
-      ~/bin
-    )
-esac
-
 # generic $PATH handling
+
+# Because fucking path_helper that 's why...
+# /etc/zprofile ----------------------------------------------------------------
+# if [ -x /usr/libexec/path_helper ]; then
+#   if [ -z "$PATH" ] || [ "$PATH" = /usr/bin:/bin:/usr/sbin:/sbin ]; then
+#     eval `/usr/libexec/path_helper -s`
+#   fi
+# fi
+
 if (( EUID != 0 )); then
   case $(uname 2>/dev/null) in
     Darwin)
-      # Brew
-      eval $($HOME/homebrew/bin/brew shellenv)
 
       path=(
-        # Tj/n
-        $N_PREFIX/bin
-
-        # Overwrite from users
-        /usr/sbin
-        /usr/bin
         $HOME/bin
+        $N_PREFIX/bin
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
         $HOME/.emacs.d/bin
         $HOME/go/bin
 
-        ${ADDONS}
+        /usr/local/bin
+        /usr/{bin,sbin}
+        /{bin,sbin}
+        /Library/Apple/usr/bin
+        /usr/libexec
+        
         ${path[@]}
       )
       fpath=(
@@ -116,6 +105,9 @@ if (( EUID != 0 )); then
 
         ${fpath[@]}
       )
+
+      # Brew
+      eval $($HOME/homebrew/bin/brew shellenv)
   esac
 else
   path=(
@@ -129,13 +121,6 @@ fi
 
 ## rbenv
 eval "$(rbenv init -)"
-
-# remove empty components to avoid '::' ending up
-# + resulting in './' being in $PATH
-#
-path=( "${path[@]:#}" )
-fpath=( "${fpath[@]:#}" )
-manpath=( "${manpath[@]:#}" )
 
 # Kill the lag with <ESC> key
 export KEYTIMEOUT=1

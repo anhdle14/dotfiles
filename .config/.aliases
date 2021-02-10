@@ -53,6 +53,10 @@ else
   alias cat="bat"
 fi
 
+if [ -f $HOME/Developer/emscripten-core/emsdk/emsdk ]; then
+  alias emsdk=$HOME/Developer/emscripten-core/emsdk/emsdk
+fi
+
 # week number
 alias week=`date +%V`
 
@@ -76,9 +80,6 @@ alias dc="cd ~/Documents"
 alias muz="cd ~/Music"
 alias vid="cd ~/Movies"
 alias dev="cd ~/Developer"
-
-# dotfiles manager
-alias c='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 case $(uname 2>/dev/null) in
   Darwin)

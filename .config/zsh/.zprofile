@@ -39,6 +39,9 @@ case $(uname 2>/dev/null) in
     # Homebrew
     export HOMEBREW_NO_ANALYTICS=1
     export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+    
+    # Whalebrew
+    export WHALEBREW_INSTALL_PATH="$HOME/bin"
 
     ## Homebrew Bundle
     export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
@@ -49,9 +52,6 @@ case $(uname 2>/dev/null) in
     ## Android Studio
     export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
     export ANDROID_HOME=$ANDROID_SDK_ROOT
-
-    ## MacPrefs
-    export MACPREFS_BACKUP_DIR="$HOME/backups/macprefs"
     
     ## Azure Functions
     export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
