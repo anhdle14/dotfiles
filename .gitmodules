@@ -11,3 +11,6 @@
 	path = .config/dotfiles/submodules/powerlevel10k
 	url = https://github.com/romkatv/powerlevel10k.git
     branch = master
+[submodule "Developer/emscripten-core/emsdk"]
+	path = Developer/emscripten-core/emsdk
+	url = https://github.com/emscripten-core/emsdk.git
