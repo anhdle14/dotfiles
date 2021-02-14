@@ -117,7 +117,7 @@ brew "telnet"
 brew "terraform", link: false
 brew "terraform-docs"
 brew "terraform-ls"
-brew "tfenv"
+brew "tfenv", link: false
 brew "tflint"
 brew "tfsec"
 brew "thefuck"
@@ -181,4 +181,3 @@ cask "transmission"
 cask "twitch"
 cask "visual-studio-code-insiders"
 cask "vlc"
-cask "vscodium"
