@@ -128,9 +128,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
-if exists('g:vscode')
-  let mapleader=","
+let mapleader="\<space>"
 
+if exists('g:vscode')
   nnoremap <silent> ? <Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>
   nnoremap <silent> <C-w>gd <Cmd>call VSCodeNotify('editor.action.revealDefinitionAside')<CR>
   function! s:manageEditorSize(...)
@@ -158,6 +158,5 @@ if exists('g:vscode')
   nnoremap <leader>ot <Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<CR>
   nnoremap <leader>tz <Cmd>call VSCodeCall('workbench.action.toggleZenMode')<CR>
 else
-  let mapleader="\<space>"
   nnoremap <leader>w <c-w>
 endif

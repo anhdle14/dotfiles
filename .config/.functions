@@ -29,7 +29,6 @@ fshow() {
     --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
 }
 
-
 ## Git #########################################################################
 git-remove-all-commit() {
   local branch
@@ -362,4 +361,16 @@ jdk() {
   version=$1
   export JAVA_HOME=$(/usr/libexec/java_home -v"$version");
   java -version
+}
+
+## backup
+backup() {
+  command brew bundle dump -f
+  command code-insiders --list-extensions >| $HOME/backups/vscode/extensions
+}
+
+## restore
+restore() {
+  command brew bundle --zap
+  command cat $HOME/backups/vscode/extensions | command xargs -L 1 code-insiders --install-extension
 }

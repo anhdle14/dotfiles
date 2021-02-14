@@ -81,7 +81,6 @@ export N_PREFIX="$HOME/n";
 if (( EUID != 0 )); then
   case $(uname 2>/dev/null) in
     Darwin)
-
       path=(
         $HOME/bin
         $N_PREFIX/bin
