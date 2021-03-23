@@ -14,7 +14,7 @@
 ################################################################################
 
 ## emsdk
-[[ -r $HOME/Developer/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
+[[ -r $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
 
 if (( EUID != 0 )); then
   case $(uname 2>/dev/null) in
