@@ -68,58 +68,36 @@ export VISUAL="emacsclient -c -a"               # $VISUAL opens in GUI mode
 
 export N_PREFIX="$HOME/n";
 
-# generic $PATH handling
+case $(uname 2>/dev/null) in
+  Darwin)
+    # Homebrew
+    export HOMEBREW_NO_ANALYTICS=1
+    export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+    
+    # Whalebrew
+    export WHALEBREW_INSTALL_PATH="$HOME/bin"
 
-# Because fucking path_helper that 's why...
-# /etc/zprofile ----------------------------------------------------------------
-# if [ -x /usr/libexec/path_helper ]; then
-#   if [ -z "$PATH" ] || [ "$PATH" = /usr/bin:/bin:/usr/sbin:/sbin ]; then
-#     eval `/usr/libexec/path_helper -s`
-#   fi
-# fi
+    ## Homebrew Bundle
+    export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
 
-if (( EUID != 0 )); then
-  case $(uname 2>/dev/null) in
-    Darwin)
-      path=(
-        $HOME/bin
-        $N_PREFIX/bin
-        $HOME/.rbenv/bin
-        $HOME/.cargo/bin
-        $HOME/.emacs.d/bin
-        $HOME/go/bin
+    ## Java
+    export JAVA_HOME=`/usr/libexec/java_home`
 
-        /usr/local/bin
-        /usr/{bin,sbin}
-        /{bin,sbin}
-        /Library/Apple/usr/bin
-        /usr/libexec
-        
-        ${path[@]}
-      )
-      fpath=(
-        $ZDOTDIR/completion
-        $ZDOTDIR/.zfunctions
-        $HOME/homebrew/share/zsh/site-functions
+    ## Android Studio
+    export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+    export ANDROID_HOME=$ANDROID_SDK_ROOT
+    
+    ## Azure Functions
+    export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
 
-        ${fpath[@]}
-      )
-
-      # Brew
-      eval $($HOME/homebrew/bin/brew shellenv)
-  esac
-else
-  path=(
-    ${ADDONS}
-    ${path[@]}
-  )
-  fpath=(
-    ${fpath[@]}
-  )
-fi
-
-## rbenv
-eval "$(rbenv init -)"
+    ## Iterm2
+    export ITERM2_SQUELCH_MARK=1
+    ;;
+  *)
+    # TODO: Fix JAVA_HOME for other distributions.
+    export JAVA_HOME=""
+    ;;
+esac
 
 # Kill the lag with <ESC> key
 export KEYTIMEOUT=1
@@ -127,7 +105,6 @@ export KEYTIMEOUT=1
 # gpg-agent has OpenSSH agent emulation.
 export GNUPGHOME=$XDG_CONFIG_HOME/gnupg
 export GPG_TTY="$(tty)"
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2

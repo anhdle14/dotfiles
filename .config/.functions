@@ -366,11 +366,11 @@ jdk() {
 ## backup
 backup() {
   command brew bundle dump -f
-  command code-insiders --list-extensions >| $HOME/backups/vscode/extensions
+  command npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' >| $HOME/backups/npm
 }
 
 ## restore
 restore() {
   command brew bundle --zap
-  command cat $HOME/backups/vscode/extensions | command xargs -L 1 code-insiders --install-extension
+  command xargs npm install --global < $HOME/backups/npm
 }

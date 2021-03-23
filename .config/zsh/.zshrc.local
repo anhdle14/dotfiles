@@ -343,9 +343,6 @@ fi
 # Functions
 [[ -r $XDG_CONFIG_HOME/.functions ]] && source $XDG_CONFIG_HOME/.functions
 
-# emsdk
-[[ -r $HOME/Developer/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
-
 # Powerlevel10k
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 [[ ! -f $DOTDIR/submodules/powerlevel10k/powerlevel10k.zsh-theme ]] || source $DOTDIR/submodules/powerlevel10k/powerlevel10k.zsh-theme

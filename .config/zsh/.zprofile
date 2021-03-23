@@ -13,6 +13,57 @@
 
 ################################################################################
 
+## emsdk
+[[ -r $HOME/Developer/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
+
+if (( EUID != 0 )); then
+  case $(uname 2>/dev/null) in
+    Darwin)
+      # Brew
+      # Normally this is all one needed, unfortunately it can not be injected
+      # properly. Hence we disable it here and manually update the path
+      # eval $($HOME/homebrew/bin/brew shellenv)
+
+      path=(
+        $HOME/bin
+        $HOME/.local/bin
+        $N_PREFIX/bin
+        $HOME/.rbenv/bin
+        $HOME/.cargo/bin
+        $HOME/.emacs.d/bin
+        $HOME/go/bin
+        $HOME/homebrew/bin
+        $HOME/homebrew/sbin
+
+        /usr/local/bin
+        /usr/{bin,sbin}
+        /{bin,sbin}
+        /Library/Apple/usr/bin
+        /usr/libexec
+
+        ${path[@]}
+      )
+      fpath=(
+        $ZDOTDIR/completion
+        $ZDOTDIR/.zfunctions
+        $HOME/homebrew/share/zsh/site-functions
+
+        ${fpath[@]}
+      )
+  esac
+else
+  path=(
+    ${ADDONS}
+    ${path[@]}
+  )
+  fpath=(
+    ${fpath[@]}
+  )
+fi
+
+## rbenv
+eval "$(rbenv init -)"
+
 if [ -f $XDG_CONFIG_HOME/gnupg/gpg-agent.conf ]; then
   case $(uname 2>/dev/null) in
     Darwin)
@@ -26,6 +77,7 @@ if [ -f $XDG_CONFIG_HOME/gnupg/gpg-agent.conf ]; then
       ;;
   esac
 fi
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
 
 # Start Emacs if it is not running as Daemon
@@ -34,36 +86,6 @@ if [ "$(lsof -c Emacs -c emacs | grep server | tr -s " " | cut -d' ' -f8)" = "" 
   command emacs --daemon &>/dev/null
 fi
 
-case $(uname 2>/dev/null) in
-  Darwin)
-    # Homebrew
-    export HOMEBREW_NO_ANALYTICS=1
-    export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
-    
-    # Whalebrew
-    export WHALEBREW_INSTALL_PATH="$HOME/bin"
-
-    ## Homebrew Bundle
-    export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
-
-    ## Java
-    export JAVA_HOME=`/usr/libexec/java_home`
-
-    ## Android Studio
-    export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
-    export ANDROID_HOME=$ANDROID_SDK_ROOT
-    
-    ## Azure Functions
-    export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
-
-    ## Iterm2
-    export ITERM2_SQUELCH_MARK=1
-    ;;
-  *)
-    # TODO: Fix JAVA_HOME for other distributions.
-    export JAVA_HOME=""
-    ;;
-esac
 ################################################################################
 
 ## END OF FILE #################################################################
