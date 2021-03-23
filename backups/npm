@@ -1,4 +1,7 @@
-eslint
-npm
-prettier
-typescript
+
+Usage:
+npm ls npm ls [[<@scope>/]<pkg> ...]
+
+alias: list
+
+Run "npm help ls" for more info
