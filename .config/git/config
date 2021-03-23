@@ -88,7 +88,7 @@
 	abbrev = 12
 	autocrlf = "input"
 	compression = 9
-	editor = "nvim"
+	editor = emacsclient
 	filemode = false
 	fsyncobjectfiles = true
 	logAllRefUpdates = true
@@ -150,3 +150,6 @@
 
 [delta]
 	side-by-side = true
+
+[init]
+	defaultBranch = main
