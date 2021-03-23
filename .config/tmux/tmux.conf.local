@@ -372,7 +372,7 @@ tmux_conf_update_plugins_on_reload=true
 
 # to enable a plugin, use the 'set -g @plugin' syntax:
 # visit https://github.com/tmux-plugins for available plugins
-
+set -g @plugin 'tmux-plugins/tmux-open'
 
 # -- custom variables ----------------------------------------------------------
 
