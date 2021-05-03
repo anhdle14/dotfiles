@@ -155,6 +155,14 @@ if exists('g:vscode')
   omap gc  <Plug>VSCodeCommentary
   nmap gcc <Plug>VSCodeCommentaryLine
 
+  " Fold
+  nmap zc  <Cmd>call VSCodeNotify("editor.fold")<CR>
+  nmap zo  <Cmd>call VSCodeNotify("editor.unfold")<CR>
+  nnoremap j :call VSCodeCall('cursorDown')<CR>
+  nnoremap k :call VSCodeCall('cursorUp')<CR>
+  nnoremap gk :<C-u>call VSCodeCall('cursorMove', { 'to': 'up', 'by': 'wrappedLine', 'value': v:count ? v:count : 1 })<CR>
+  nnoremap gj :<C-u>call VSCodeCall('cursorMove', { 'to': 'down', 'by': 'wrappedLine', 'value': v:count ? v:count : 1 })<CR>
+
   nnoremap <leader>ot <Cmd>call VSCodeNotify('workbench.action.toggleSidebarVisibility')<CR>
   nnoremap <leader>tz <Cmd>call VSCodeCall('workbench.action.toggleZenMode')<CR>
 else

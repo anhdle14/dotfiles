@@ -34,6 +34,7 @@ if (( EUID != 0 )); then
         $HOME/go/bin
         $HOME/homebrew/bin
         $HOME/homebrew/sbin
+        $HOME/Library/Python/3.9/bin
 
         /usr/local/bin
         /usr/{bin,sbin}
