@@ -14,9 +14,6 @@
 [submodule "Developer/github.com/emscripten-core/emsdk"]
 	path = Developer/github.com/emscripten-core/emsdk
 	url = https://github.com/emscripten-core/emsdk.git
-[submodule ".config/dotfiles/submodules/bluetooth-pairing"]
-	path = .config/dotfiles/submodules/bluetooth-pairing
-	url = https://github.com/Soorma07/OS-X-Bluetooth-Pairing-Value-To-Windows-Value.git
 [submodule ".config/dotfiles/submodules/kubectl-aliases"]
 	path = .config/dotfiles/submodules/kubectl-aliases
 	url = https://github.com/ahmetb/kubectl-aliases.git
