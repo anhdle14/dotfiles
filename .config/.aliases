@@ -81,6 +81,9 @@ alias muz="cd ~/Music"
 alias vid="cd ~/Movies"
 alias dev="cd ~/Developer"
 
+# kubectl-aliases
+[ -f ~/.config/dotfiles/submodules/kubectl-aliases/.kubectl_aliases ] && source ~/.config/dotfiles/submodules/kubectl-aliases/.kubectl_aliases
+
 case $(uname 2>/dev/null) in
   Darwin)
     alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"

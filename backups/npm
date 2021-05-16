@@ -1,5 +1,7 @@
 eslint
+js-beautify
 npm
 pnpm
 prettier
+stylelint
 typescript

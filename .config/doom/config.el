@@ -40,6 +40,11 @@
 ;; Enable auto-save. Default to 5s of idle time
 (setq auto-save-visited-mode +1)
 
+;; md-roam
+(use-package! md-roam
+  :config
+  (setq md-roam-file-extension-single "md"))
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one

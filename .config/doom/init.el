@@ -152,7 +152,12 @@
        ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
        (ocaml +lsp)             ; an objective camel
-       org
+       (org +roam
+            +pandoc
+            +pretty
+            +jupter
+            +journal
+            +gnuplot)
        ;; (org +brain
        ;;      +dragndrop
        ;;      +gnuplot

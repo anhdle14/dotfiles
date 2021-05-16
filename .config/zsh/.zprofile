@@ -65,6 +65,9 @@ fi
 ## rbenv
 eval "$(rbenv init -)"
 
+## opam
+eval $(opam env)
+
 if [ -f $XDG_CONFIG_HOME/gnupg/gpg-agent.conf ]; then
   case $(uname 2>/dev/null) in
     Darwin)
