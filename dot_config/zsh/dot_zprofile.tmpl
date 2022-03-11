@@ -59,6 +59,16 @@ else
   [[ ! -r $ZDOTDIR/completion/_deno ]] && deno completions zsh >| $ZDOTDIR/completion/_deno
 fi
 
+{{- if eq .chezmoi.os "linux" }}
+# Autostart X
+if [[ -z $DISPLAY && $(tty) == /dev/tty1 ]]; then
+  startx
+fi
+
+# Start ibus
+ibus-daemon -drxR
+{{- end }}
+
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 # code: language=shellscript insertSpaces=true tabsize=2

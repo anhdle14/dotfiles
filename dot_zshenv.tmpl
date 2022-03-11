@@ -19,9 +19,31 @@
 #
 # Global Order: zshenv, zprofile, zshrc, zlogin
 ################################################################################
-# set environment variables (important for autologin on tty)
-export HOSTNAME="$(uname -n)"
+{{- if eq .chezmoi.os "linux" }}
+# language settings (read in /etc/environment before /etc/default/locale as
+# the latter one is the default on Debian nowadays)
+# no xsource() here because it's only created in zshrc! (which is good)
+[[ -r /etc/environment ]] && source /etc/environment
+
+# also using /etc/zsh/zprofile
+[[ -r /etc/zsh/zprofile ]] && source /etc/zsh/zprofile
+
+# also getting language settings from etc/locale.conf or else using LC_ALL as the override
+if [ -r /etc/locale.conf ] ; then
+  source /etc/locale.conf
+else
+  export LC_ALL=en_US.UTF-8
+fi
+{{- else if eq .chezmoi.os "darwin" }}
 export LC_ALL=en_US.UTF-8
+{{- end }}
+
+# set environment variables (important for autologin on tty)
+if [ -n "${HOSTNAME}" ] ; then
+  export HOSTNAME="${HOSTNAME}"
+else
+  export HOSTNAME="$(uname -n)"
+fi
 
 export ALTERNATE_EDITOR=""         # A trick so emacs will start daemon if not already
 export EDITOR="emacsclient --tty"  # $EDITOR opens in terminal
@@ -71,49 +93,89 @@ history_ignore=(
 HISTORY_IGNORE="(${(j.|.)history_ignore})"
 
 ## XDG #########################################################################
+{{- if eq .chezmoi.os "linux" }}
+# user directories
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_RUNTIME_DIR="/run/user/${UID}"
+
+# system directories
+export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+export XDG_CONFIG_DIRS="/etc/xdg"
+{{- else if eq .chezmoi.os "darwin" }}
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
+{{- else }}
+# user directories
+export XDG_CONFIG_HOME="${HOME}/.config"
+{{- end }}
 
 ## PATH ########################################################################
 if (( EUID != 0 )); then
-  # Brew
-  # Normally this is all one needed, unfortunately it can not be injected
-  # properly. Hence we disable it here and manually update the path
-  # eval $($HOME/homebrew/bin/brew shellenv)
-
-  path=(
-    $HOME/homebrew/opt/gnu-getopt/bin
-    $HOME/bin
-    $HOME/.local/bin
-    $N_PREFIX/bin
-    $HOME/.rbenv/bin
-    $HOME/.cargo/bin
-    $HOME/.emacs.d/bin
-    $HOME/go/bin
-    $HOME/homebrew/bin
-    $HOME/homebrew/sbin
-    $HOME/Library/Python/3.9/bin
-    $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
-    $HOME/homebrew/opt/llvm/bin
-
-    /usr/local/bin
-    /usr/{bin,sbin}
-    /{bin,sbin}
-    /Library/Apple/usr/bin
-    /usr/libexec
-
-    ${path[@]}
-  )
-  fpath=(
-    $ZDOTDIR/completion
-    $ZDOTDIR/.zfunctions
-    $HOME/homebrew/share/zsh/site-functions
-
-    ${fpath[@]}
-  )
+  case $(uname 2>/dev/null) in
+    Darwin)
+      # Brew
+      # Normally this is all one needed, unfortunately it can not be injected
+      # properly. Hence we disable it here and manually update the path
+      # eval $($HOME/homebrew/bin/brew shellenv)
+      path=(
+        $HOME/homebrew/opt/gnu-getopt/bin
+        $HOME/bin
+        $HOME/.local/bin
+        $N_PREFIX/bin
+        $HOME/.rbenv/bin
+        $HOME/.cargo/bin
+        $HOME/.emacs.d/bin
+        $HOME/go/bin
+        $HOME/homebrew/bin
+        $HOME/homebrew/sbin
+        $HOME/Library/Python/3.9/bin
+        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
+        $HOME/homebrew/opt/llvm/bin
   
+        /usr/local/bin
+        /usr/{bin,sbin}
+        /{bin,sbin}
+        /Library/Apple/usr/bin
+        /usr/libexec
+  
+        ${path[@]}
+      )
+      fpath=(
+        $ZDOTDIR/completion
+        $HOME/homebrew/share/zsh/site-functions
+  
+        ${fpath[@]}
+      )
+      ;;
+    Linux)
+      path=(
+        $HOME/bin
+        $HOME/.local/bin
+
+        $N_PREFIX/bin
+        $HOME/.rbenv/bin
+        $HOME/.cargo/bin
+        $HOME/.emacs.d/bin
+        $HOME/go/bin
+  
+        /usr/local/bin
+        /usr/{bin,sbin}
+        /{bin,sbin}
+  
+        ${path[@]}
+      )
+      fpath=(
+        $ZDOTDIR/completion
+  
+        ${fpath[@]}
+      )
+      ;;
+  esac
 else
   path=(
     ${ADDONS}
@@ -132,9 +194,11 @@ typeset -U path
 typeset -U fpath
 
 ## ENVVARS #####################################################################
+{{- if eq .chezmoi.os "darwin" }}
 ## llvm
 export LDFLAGS="-L/Users/anhdle14/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/Users/anhdle14/homebrew/opt/llvm/include"
+{{- end }}
 
 # Golang
 export GOPATH=$HOME/go
@@ -147,7 +211,6 @@ export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
 
 # GnuPG with SSH
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-export GPG_TTY="$(tty)"
 
 # programs that leverage $XDG_CONFIG_HOME
 export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
@@ -163,6 +226,19 @@ export N_PREFIX="$HOME/n";
 # Flutter
 export CHROME_EXECUTABLE="chromium"
 
+{{- if eq .chezmoi.os "linux" }}
+# NOTE: This is specific for arch-linux. Though the path should work with most linux.
+# java (should change with archlinux-java instead of hardcording it here)
+# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
+export JAVA_HOME="/usr/lib/jvm/default"
+
+export ANDROID_SDK_ROOT=
+export ANDROID_HOME=
+
+# google-cloud-sdk
+source "/opt/google-cloud-sdk/completion.zsh.inc"
+source "/opt/google-cloud-sdk/path.zsh.inc"
+{{- else if eq .chezmoi.os "darwin" }}
 # Homebrew
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
@@ -179,6 +255,11 @@ export JAVA_HOME=`/usr/libexec/java_home`
 # Android Studio
 export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
 export ANDROID_HOME=$ANDROID_SDK_ROOT
+
+## gcloud
+source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+{{- end }}
 
 # Kill the lag with <ESC> key
 export KEYTIMEOUT=1
@@ -198,9 +279,6 @@ eval "$(direnv hook zsh)"
 ## thefuck
 eval $(thefuck --alias)
 
-## gcloud
-source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 
 ## Virtualenvwrapper
 source $(which virtualenvwrapper_lazy.sh)

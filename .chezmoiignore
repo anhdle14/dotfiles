@@ -1,0 +1,13 @@
+{{- if ne .chezmoi.os "darwin" }}
+Library/LaunchAgents
+.config/dotfiles/submodules/flutter
+{{- end }}
+
+{{- if ne .chezmoi.os "linux" }}
+.xinitrc
+.nvidia-settings-rc
+{{- end }}
+
+# Documentations folder for advance setup
+.config/kvm
+.config/pam
