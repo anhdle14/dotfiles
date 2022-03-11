@@ -1,0 +1,36 @@
+[".emacs.d"]
+    type = "git-repo"
+    url = "https://github.com/hlissner/doom-emacs.git"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "24h"
+["Developer/github.com/emscripten-core/emsdk"]
+    type = "git-repo"
+    url = "https://github.com/emscripten-core/emsdk.git"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "24h"
+[".config/dotfiles/submodules/powerlevel10k"]
+    type = "git-repo"
+    url = "https://github.com/romkatv/powerlevel10k.git"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "24h"
+[".config/dotfiles/submodules/flutter"]
+    type = "git-repo"
+    url = "https://github.com/flutter/flutter.git"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "24h"
+[".config/dotfiles/submodules/.tmux"]
+    type = "git-repo"
+    url = "https://github.com/gpakosz/.tmux.git"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "24h"
+[".config/dotfiles/submodules/kubectl-aliases"]
+    type = "git-repo"
+    url = "https://github.com/ahmetb/kubectl-aliases.git"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "24h"

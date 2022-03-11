@@ -1,0 +1,212 @@
+# Filename:      zshenv
+# Purpose:       system-wide .zshenv file for zsh(1)
+# Authors:       grml-team (grml.org), (c) Michael Prokop <mika@grml.org>
+# Bug-Reports:   see http://grml.org/bugs/
+# License:       This file is licensed under the GPL v2.
+################################################################################
+# This file is sourced on all invocations of the shell.
+# It is the 1st file zsh reads; it's read for every shell,
+# even if started with -f (setopt NO_RCS), all other
+# initialization files are skipped.
+#
+# This file should contain commands to set the command
+# search path, plus other important environment variables.
+# This file should not contain commands that produce
+# output or assume the shell is attached to a tty.
+#
+# Notice: .zshenv is the same, execpt that it's not read
+# if zsh is started with -f
+#
+# Global Order: zshenv, zprofile, zshrc, zlogin
+################################################################################
+# set environment variables (important for autologin on tty)
+export HOSTNAME="$(uname -n)"
+export LC_ALL=en_US.UTF-8
+
+export ALTERNATE_EDITOR=""         # A trick so emacs will start daemon if not already
+export EDITOR="emacsclient --tty"  # $EDITOR opens in terminal
+export VISUAL="code-insiders"       # $VISUAL opens in GUI mode
+
+# make sure /usr/bin/id is available
+if [[ -x /usr/bin/id ]] ; then
+  [[ -z "$USER" ]] && export USER=$(/usr/bin/id -un)
+  # FIXME: though a sidenoted in MacOS the logname currently return `root` instead of current `user`.
+  # NOTE: That's why currently I hard-coded LOGNAME to $USER
+  [[ $LOGNAME == LOGIN ]] && LOGNAME=$(/usr/bin/id -un)
+fi
+
+# less (:=pager) options:
+# export LESS=C
+typeset -a lp; lp=( ${^path}/lesspipe(N) )
+if (( $#lp > 0 )) && [[ -x $lp[1] ]] ; then
+    export LESSOPEN="|lesspipe %s"
+elif [[ -x /usr/bin/lesspipe.sh ]] ; then
+    export LESSOPEN="|lesspipe.sh %s"
+fi
+unset lp
+
+export READNULLCMD=${PAGER:-/usr/bin/pager}
+
+# allow zeroconf for distcc
+export DISTCC_HOSTS="+zeroconf"
+
+# MAKEDEV should be usable on udev as well by default:
+export WRITE_ON_UDEV=yes
+
+# History
+history_ignore=(
+  'history'
+  'env'
+  'printenv'
+  'ls *'
+  'ls -1'
+  'cd *'
+  'cd .*'
+  'clear'
+  'pwd'
+  'exit'
+  'date'
+  '* --help'
+)
+HISTORY_IGNORE="(${(j.|.)history_ignore})"
+
+## XDG #########################################################################
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_STATE_HOME=$HOME/.local/state
+
+## PATH ########################################################################
+if (( EUID != 0 )); then
+  # Brew
+  # Normally this is all one needed, unfortunately it can not be injected
+  # properly. Hence we disable it here and manually update the path
+  # eval $($HOME/homebrew/bin/brew shellenv)
+
+  path=(
+    $HOME/homebrew/opt/gnu-getopt/bin
+    $HOME/bin
+    $HOME/.local/bin
+    $N_PREFIX/bin
+    $HOME/.rbenv/bin
+    $HOME/.cargo/bin
+    $HOME/.emacs.d/bin
+    $HOME/go/bin
+    $HOME/homebrew/bin
+    $HOME/homebrew/sbin
+    $HOME/Library/Python/3.9/bin
+    $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
+    $HOME/homebrew/opt/llvm/bin
+
+    /usr/local/bin
+    /usr/{bin,sbin}
+    /{bin,sbin}
+    /Library/Apple/usr/bin
+    /usr/libexec
+
+    ${path[@]}
+  )
+  fpath=(
+    $ZDOTDIR/completion
+    $ZDOTDIR/.zfunctions
+    $HOME/homebrew/share/zsh/site-functions
+
+    ${fpath[@]}
+  )
+  
+else
+  path=(
+    ${ADDONS}
+    ${path[@]}
+  )
+  fpath=(
+    ${fpath[@]}
+  )
+fi
+
+# remove empty components to avoid '::' ending up + resulting in './' being in $PATH
+path=( "${path[@]:#}" )
+fpath=( "${fpath[@]:#}" )
+
+typeset -U path
+typeset -U fpath
+
+## ENVVARS #####################################################################
+## llvm
+export LDFLAGS="-L/Users/anhdle14/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/Users/anhdle14/homebrew/opt/llvm/include"
+
+# Golang
+export GOPATH=$HOME/go
+
+# Airflow
+export AIRFLOW_HOME=$HOME/airflow
+
+# GnuPG
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+# GnuPG with SSH
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+export GPG_TTY="$(tty)"
+
+# programs that leverage $XDG_CONFIG_HOME
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
+export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
+export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
+export SHDIR=$XDG_CONFIG_HOME/sh
+export DOTDIR=$XDG_CONFIG_HOME/dotfiles
+export ZDOTDIR=$XDG_CONFIG_HOME/zsh # this will comes after $HOME/.zshenv.
+
+# n instead of nvm
+export N_PREFIX="$HOME/n";
+
+# Flutter
+export CHROME_EXECUTABLE="chromium"
+
+# Homebrew
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+
+# Whalebrew
+export WHALEBREW_INSTALL_PATH="$HOME/bin"
+
+# Homebrew Bundle
+export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
+
+# Java
+export JAVA_HOME=`/usr/libexec/java_home`
+
+# Android Studio
+export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+export ANDROID_HOME=$ANDROID_SDK_ROOT
+
+# Kill the lag with <ESC> key
+export KEYTIMEOUT=1
+
+## emsdk
+[[ -r $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
+
+## rbenv
+eval "$(rbenv init -)"
+
+## opam
+eval $(opam env)
+
+## Direnv
+eval "$(direnv hook zsh)"
+
+## thefuck
+eval $(thefuck --alias)
+
+## gcloud
+source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+
+## Virtualenvwrapper
+source $(which virtualenvwrapper_lazy.sh)
+
+# telemetry stuffs
+export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
+
+## END OF FILE #################################################################
+# vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2

@@ -1,0 +1,24 @@
+# Filename:      .zshrc.pre
+# Purpose:       personal config file for zsh (z shell)
+# Authors:       anhdle14 (github.com/anhdle14), (c) Duc Le <anhdle14@icloud.com>
+# Bug-Reports:   see http://github.com/anhdle14/dotfiles/issues
+# License:       This file is licensed under the MIT License
+################################################################################
+# Normally, zsh configuration lives only in.zshrc file. However, because we
+# are leveraging grml's zsh setup. We will use .zshrc.local for local
+# configuration after grml's zshrc and .zshrc.pre for local configuration
+# beofre grml's zshrc.
+################################################################################
+# ctrl-s will no longer freeze the terminal.
+stty erase "^?"
+
+# Enable Powerlevel10k instant prompt.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+## END OF FILE #################################################################
+# vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
+# code: language=shellscript insertSpaces=true tabsize=2

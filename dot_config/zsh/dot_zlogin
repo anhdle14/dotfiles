@@ -1,0 +1,26 @@
+# Filename:      .zlogin
+# Purpose:       user-wide .zlogin file for zsh(1)
+# Authors:       anhdle14 (github.com/anhdle14), (c) Duc Le <anhdle14@icloud.com>
+# Bug-Reports:   see http://github.com/anhdle14/dotfiles/issues
+# License:       This file is licensed under the MIT License
+################################################################################
+# This file is sourced only for login shells. It
+# should contain commands that should be executed only
+# in login shells. It should be used to set the terminal
+# type and run a series of external commands (fortune,
+# msgs, from, etc.)
+# Note that using zprofile and zlogin, you are able to
+# run commands for login shells before and after zshrc.
+#
+# Global Order: zshenv, zprofile, zshrc, zlogin
+################################################################################
+# Also set vi-like
+bindkey -v
+
+# make sure the correct GPG_TTY is being used
+export GPG_TTY="$(tty)"
+gpg-connect-agent updatestartuptty /bye &>/dev/null
+
+## END OF FILE #################################################################
+# vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
+# code: language=shellscript insertSpaces=true tabsize=2

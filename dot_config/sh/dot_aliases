@@ -1,0 +1,99 @@
+# Filename:      .aliases
+# Purpose:       personal config file for sh
+# Authors:       anhdle14 (github.com/anhdle14), (c) Duc Le <anhdle14@icloud.com>
+# Bug-Reports:   see http://github.com/anhdle14/dotfiles/issues
+# License:       This file is licensed under the MIT License
+################################################################################
+# https://news.ycombinator.com/item?id=11070797
+alias conf='git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME'
+
+#a2# Execute 
+alias da='du -sch'
+
+# some useful aliases
+#a2# Remove current empty directory. Execute \kbd{cd ..; rmdir \$OLDCWD}
+alias rmcdir='cd ..; rmdir $OLDPWD || cd $OLDPWD'
+
+#a2# ssh with StrictHostKeyChecking=no \\&\quad and UserKnownHostsFile unset
+alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+#a2# scp with StrictHostKeyChecking=no \\&\quad and UserKnownHostsFile unset
+alias insecscp='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
+
+# typos
+alias :q='exit'
+alias help='man'
+alias quit='exit'
+alias e=$EDITOR
+alias v='nvim'
+alias c='code-insiders'
+
+# Curl currently doesn't support $XDG_CONFIG_HOME
+alias curl="curl -K $XDG_CONFIG_HOME/curl/.curlrc"
+
+# exa instead of ls
+if ! type "exa" > /dev/null; then
+  echo "Please install 'exa'"
+  alias dir="command exa -lSrah"
+  alias lad='command exa -d .*(/)'
+  alias lsa='command exa -a .*(.)'
+  alias lss='command exa -l *(s,S,t)'
+  alias lsl='command exa -l *(@)'
+  alias lsx='command exa -l *(*)'
+  alias lsw='command exa -ld *(R,W,X.^ND/)'
+  alias lsbig="command exa -flh *(.OL[1,10])"
+  alias lsd='command exa -d *(/)'
+  alias lse='command exa -d *(/^F)'
+  alias lsnew="command exa -rtlh *(D.om[1,10])"
+  alias lsold="command exa -rtlh *(D.Om[1,10])"
+  alias lssmall="command exa -Srl *(.oL[1,10])"
+  alias lsnewdir="command exa -rthdl *(/om[1,10]) .*(D/om[1,10])"
+  alias lsolddir="command exa -rthdl *(/Om[1,10]) .*(D/Om[1,10])"
+else
+  alias ls="exa"
+fi
+
+# bat instead of cat
+if ! type "bat" > /dev/null; then
+  echo "Please install 'bat'"
+else
+  alias cat="bat"
+fi
+
+if [ -f $HOME/Developer/emscripten-core/emsdk/emsdk ]; then
+  alias emsdk=$HOME/Developer/emscripten-core/emsdk/emsdk
+fi
+
+# week number
+alias week=`date +%V`
+
+# ip addresses
+alias ip="curl -s api.ipify.org"
+alias localip="ipconfig getifaddr en0"
+
+# active network interfaces
+alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+
+# apps
+alias tf="terraform"
+alias k="kubectl"
+alias ktx="kubectx"
+alias kns="kubens"
+alias h="helm"
+
+# shortcuts
+alias dl="cd ~/Downloads"
+alias dc="cd ~/Documents"
+alias muz="cd ~/Music"
+alias vid="cd ~/Movies"
+alias dev="cd ~/Developer"
+alias gh="cd ~/Developer/github.com"
+alias gl="cd ~/Developer/gitlab.com"
+
+# kubectl-aliases
+[ -f ~/.config/dotfiles/submodules/kubectl-aliases/.kubectl_aliases ] && source ~/.config/dotfiles/submodules/kubectl-aliases/.kubectl_aliases
+
+alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+
+## END OF FILE #################################################################
+# vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
+# code: language=shellscript insertSpaces=true tabsize=2

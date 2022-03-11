@@ -1,0 +1,159 @@
+[alias]
+	alias = "!git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'|sort"
+	anychanges = "!sh -c 'git fetch' && git log --oneline HEAD..origin/$1"
+	anychangesonmaster = "!sh -c 'git fetch' && git log --oneline HEAD..origin/master"
+	apm = "!f() { git add --all && git commit -m \"$@\" && git push; }; f"
+	bbranch = "branch -v"
+	br = "branch"
+	branch-name = "!git rev-parse --abbrev-ref HEAD"
+	branches = "branch -avvl"
+	changelog = "log --pretty=format:'%Cgreen%d %Creset%s' --date=iso"
+	check-eol = "!git grep --files-with-matches $'\\r' HEAD"
+	check-whitespace = "!git diff-tree --check $(git hash-object -t tree /dev/null) HEAD"
+	checkoutlasttag = "!sh -c 'git checkout `git describe --abbrev=0 --tags`'"
+	ci = "commit"
+	cleanup = "!git branch --merged=master | grep -Ev '^\\* | master$' | xargs -r git branch -d"
+	cleanuplocal = "!git remote prune origin && git gc && git clean -df"
+	co = "checkout"
+	difff = "diff --color-words"
+	fetchpr = "!sh -c 'git fetch origin pull/$0/head:pr/$0'"
+	find = "!sh -c 'git ls-tree -r --name-only HEAD | grep --color $1' -"
+	fixgitignore = "!git rm -r --cached . && git add . && git commit -m \"Just a .gitignore fix \""
+	fpush = "push --force-with-lease"
+	hide = "update-index --assume-unchanged"
+	hist = "log --graph --date=relative \n            --format=format:'%C(auto)%h %C(bold blue)%an%C(auto)%d %C(green)%ad%C(reset)%n%w(80,8,8)%s'"
+	histfull = "log --graph --date=relative --name-status \n            --format=format:'%C(auto)%h %C(bold blue)%an%C(auto)%d %C(green)%ad%C(reset)%n%w(80,8,8)%s%n'"
+	howmany = "!sh -c 'git log -a --pretty=oneline | wc -l'"
+	howmanybywhom = "shortlog -sn"
+	issues = "!f() { : git log ; echo 'Printing issue keys'; git log --oneline $@ | egrep -o [A-Z]+-[0-9]+ | sort | uniq; }; f"
+	lasttag = "describe --abbrev=0 --tags"
+	lg = "log --color --graph --abbrev-commit"
+	llog = "log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=iso"
+	ls = "log --pretty=format:'%C(yellow)%p..%h %C(white dim)%cd %<|(49,trunc)%an %C(reset)%s' --date=short --abbrev=8 --no-merges"
+	makegitrepo = "!git init && git add . && git commit -m \"initial commit\""
+	publish = "!sh -c 'git push -u ${1:-origin} $(git branch-name)' -"
+	publishtag = "!sh -c 'git push ${2:-origin} $1' -"
+	puff = "pull --ff-only"
+	purr = "pull --rebase"
+	pushtags = "push --tags"
+	recent = "for-each-ref --sort=-committerdate refs/heads/ --format='%(authordate:short) %(color:red)%(objectname:short) %(color:yellow)%(refname:short)%(color:reset) (%(color:green)%(committerdate:relative)%(color:reset))'"
+	showorigin = "!sh -c 'for branch in `git branch -r | grep -v HEAD`;do echo `git show -s --format=\"%Cred%ci %C(green)%h %C(yellow)%cr %C(magenta)%an %C(blue)\" $branch | head -n 1` \\\t$branch; done | sort -r'"
+	showtags = "show-ref --tags"
+	st = "status"
+	sth = "stash -u"
+	tagwithdate = "!sh -c 'git tag \"$0\"_$(date \"+%y-%m-%d_%H-%M-%S\")'"
+	trackallbranches = "!sh -c \"for branchname in `git branch -r `; do git branch --track $branchname; done\""
+	unhide = "update-index --no-assume-unchanged"
+	unpublish = "!sh -c 'set -e; git push ${1:-origin} :$(git branch-name);git branch --unset-upstream $(git branch-name)' -"
+	unpublishtag = "!sh -c 'git push ${2:-origin} :refs/tags/$1' -"
+	unstage = "reset HEAD --"
+	updateallbranches = "!sh -c \"for branchname in `git branch -r `; do git checkout $branchname ; git pull; done\""
+	whatis = "show -s --pretty='tformat::%h (%s, %ad)' --date=short"
+	whois = "!sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -"
+	whoischanging = "!sh -c 'git shortlog HEAD..origin/$0'"
+	whoischangingmaster = "!sh -c 'git shortlog HEAD..origin/master'"
+
+[color]
+	interactive = "auto"
+	ui = "true"
+
+[color "branch"]
+	current = "yellow reverse"
+	local = "yellow"
+	remote = "green"
+
+[color "diff"]
+	frag = "magenta bold"
+	meta = "yellow bold"
+	new = "green bold"
+	old = "red bold"
+
+[color "sh"]
+	branch = "yellow reverse"
+	dirty = "red"
+	dirty-stash = "red"
+	repo-state = "red"
+	workdir = "blue bold"
+
+[color "status"]
+	added = "yellow"
+	changed = "green"
+	untracked = "red"
+
+[commit]
+	gpgSign = true
+	template = "~/.config/git/template"
+
+[core]
+	abbrev = 12
+	autocrlf = "input"
+	compression = 9
+	editor = "emacsclient --tty"
+	filemode = false
+	fsyncobjectfiles = true
+	logAllRefUpdates = true
+	pager = "delta"
+	precomposeunicode = false
+	trustctime = false
+	untrackedCache = true
+	whitespace = "fix,space-before-tab,-indent-with-non-tab,trailing-space"
+	excludesfile = "~/.config/git/gitignore"
+
+[diff]
+	ignoreSubmodules = "dirty"
+	mnemonicprefix = true
+	renames = "copies"
+
+[filter "lfs"]
+	clean = "git-lfs clean -- %f"
+	required = true
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[filter "media"]
+	clean = "git media clean %f"
+	required = true
+	smudge = "git media smudge %f"
+
+[gpg]
+	program = gpg
+
+[interactive]
+	diffFilter = "delta --color-only"
+
+[merge]
+	ff = true
+	log = true
+
+[pretty]
+	custom = "%C(magenta)%h%C(red)%d %C(yellow)%ar %C(green)%s %C(yellow)(%an)"
+
+[pull]
+	rebase = true
+
+[push]
+	default = "tracking"
+	followTags = true
+
+[rebase]
+	autosquash = true
+
+[url "git@github.com:anhdle14/"]
+	insteadOf = "ghme:"
+
+[url "git@gitlab.com:anhdle14/"]
+	insteadOf = "glme:"
+
+[url "git@ssh.dev.azure.com:v3/"]
+	insteadOf = "azdo:"
+
+[user]
+	email = "anhdle14@icloud.com"
+	name = "Le Anh Duc"
+	signingKey = "0x0299AFF9ECBB5169"
+
+[delta]
+	side-by-side = true
+
+[init]
+	defaultBranch = main

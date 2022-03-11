@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+   "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>KeepAlive</key>
+    <true />
+    <key>Label</key>
+    <string>me.anhdle14.jupyter</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/anhdle14/bin/jupyter-startup.sh</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true />
+    <key>StandardErrorPath</key>
+    <string>/Users/anhdle14/homebrew/var/log/jupyter.log</string>
+    <key>StandardOutPath</key>
+    <string>/Users/anhdle14/homebrew/var/log/jupyter.log</string>
+  </dict>
+</plist>
