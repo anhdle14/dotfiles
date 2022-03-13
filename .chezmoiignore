@@ -4,7 +4,14 @@ Library/LaunchAgents
 {{- end }}
 
 {{- if ne .chezmoi.os "linux" }}
+bin/dwmbar
+.Xauthority
+.xscreenrc
 .xinitrc
+.fehbg
+.config/rofi
+.config/chrome-flags.conf
+.config/autostart
 .nvidia-settings-rc
 {{- end }}
 

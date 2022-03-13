@@ -1,0 +1,58 @@
+#!/usr/bin/env dash
+
+# ^c$var^ = fg color
+# ^b$var^ = bg color
+
+black=#1e222a
+green=#7eca9c
+white=#abb2bf
+grey=#282c34
+blue=#7aa2f7
+red=#d47d85
+darkblue=#668ee3
+
+interval=0
+
+cpu() {
+  cpu_val=$(top -b -n2 -p 1 | fgrep "Cpu(s)" | tail -1 | awk -F'id,' -v prefix="$prefix" '{ split($1, vs, ","); v=vs[length(vs)]; sub("%", "", v); printf "%s%.1f\n", prefix, 100 - v }')
+  cpu_temp=$(cat /sys/class/thermal/thermal_zone0/temp | cut -b -2)
+
+  printf "^c$black^ ^b$blue^ CPU"
+  printf "^c$white^ ^b$grey^ %%: $cpu_val °C: $cpu_temp"
+}
+
+gpu() {
+  gpu_val=$(nvidia-smi -i 0 -q | grep Utilization -A4 | awk '/.*Gpu/ {print $3 }')
+  gpu_temp=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
+
+  printf "^c$black^ ^b$green^ GPU"
+  printf "^c$white^ ^b$grey^ %%: $gpu_val °C: $gpu_temp"
+}
+
+pkg_updates() {
+  printf "^c$green^  $(checkupdates | wc -l)"" updates"
+}
+
+mem() {
+  printf "^c$blue^^b$black^  "
+  printf "^c$blue^ $(free -h | awk '/^Mem/ { print $3 }' | sed s/i//g)"
+}
+
+net() {
+  case "$(cat /sys/class/net/enp*/operstate 2>/dev/null)" in
+    up) printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$blue^Connected" ;;
+    down) printf "^c$black^ ^b$blue^ 󰤭 ^d^%s" " ^c$blue^Disconnected" ;;
+  esac
+}
+
+clock() {
+  printf "^c$black^ ^b$darkblue^ 󱑆 "
+  printf "^c$black^^b$blue^ $(date '+%a, %B %d | %I:%M %p')  "
+}
+
+while true; do
+  [ $interval = 0 ] || [ $(($interval % 3600)) = 0 ] && updates=$(pkg_updates)
+  interval=$((interval + 1))
+  
+  sleep 1 && xsetroot -name "$updates $(cpu) $(gpu) $(mem) $(net) $(clock)"
+done
