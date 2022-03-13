@@ -1,9 +1,12 @@
 # code: language=ssh_config tabSize=2
 Host *
+{{- if eq .chezmoi.os "linux" }}
+  IgnoreUnknown AddKeysToAgent
+{{- else if eq .chezmoi.os "darwin" }}
   IgnoreUnknown AddKeysToAgent,UseKeychain
-  AddKeysToAgent yes
   UseKeychain yes
-  UseRoaming no
+{{- end }}
+  AddKeysToAgent yes
   HashKnownHosts yes
   VisualHostKey yes
   PasswordAuthentication no

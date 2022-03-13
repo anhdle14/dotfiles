@@ -9,6 +9,10 @@
 # configuration after grml's zshrc and .zshrc.pre for local configuration
 # beofre grml's zshrc.
 ################################################################################
+# make sure the correct GPG_TTY is being used
+export GPG_TTY="$(tty)"
+gpg-connect-agent updatestartuptty /bye &>/dev/null
+
 # ctrl-s will no longer freeze the terminal.
 stty erase "^?"
 
