@@ -114,6 +114,13 @@ export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CONFIG_HOME="${HOME}/.config"
 {{- end }}
 
+{{- if eq .chezmoi.os "linux" }}
+## IBus ########################################################################
+GTK_IM_MODULE=ibus
+QT_IM_MODULE=ibus
+XMODIFIERS=@im=ibus
+{{- end }}
+
 ## PATH ########################################################################
 if (( EUID != 0 )); then
   case $(uname 2>/dev/null) in
