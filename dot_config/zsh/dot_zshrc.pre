@@ -10,18 +10,11 @@
 # beofre grml's zshrc.
 ################################################################################
 # make sure the correct GPG_TTY is being used
-export GPG_TTY="$(tty)"
+export GPG_TTY=$TTY
 gpg-connect-agent updatestartuptty /bye &>/dev/null
 
 # ctrl-s will no longer freeze the terminal.
 stty erase "^?"
-
-# Enable Powerlevel10k instant prompt.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 ## emsdk
 [[ -r $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
@@ -32,14 +25,22 @@ eval "$(rbenv init -)"
 ## opam
 eval $(opam env)
 
-## Direnv
-eval "$(direnv hook zsh)"
-
 ## thefuck
 eval $(thefuck --alias)
 
 ## Virtualenvwrapper
 source $(which virtualenvwrapper_lazy.sh)
+
+# Enable Powerlevel10k instant prompt.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
