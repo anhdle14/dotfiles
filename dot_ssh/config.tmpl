@@ -32,3 +32,9 @@ Host gitlab.com
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa.pub
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+Host ssh.dev.azure.com
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_rsa.pub
+  PubkeyAcceptedKeyTypes=ssh-rsa
+  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com

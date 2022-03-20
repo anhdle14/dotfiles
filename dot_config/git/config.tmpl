@@ -157,3 +157,10 @@
 
 [init]
 	defaultBranch = main
+
+{{- if eq .chezmoi.os "linux" }}
+
+# using gnome-keyring
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret
+{{- end }}

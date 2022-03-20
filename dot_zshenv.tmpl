@@ -19,7 +19,6 @@
 #
 # Global Order: zshenv, zprofile, zshrc, zlogin
 ################################################################################
-{{- if eq .chezmoi.os "linux" }}
 # language settings (read in /etc/environment before /etc/default/locale as
 # the latter one is the default on Debian nowadays)
 # no xsource() here because it's only created in zshrc! (which is good)
@@ -34,9 +33,6 @@ if [ -r /etc/locale.conf ] ; then
 else
   export LC_ALL=en_US.UTF-8
 fi
-{{- else if eq .chezmoi.os "darwin" }}
-export LC_ALL=en_US.UTF-8
-{{- end }}
 
 # set environment variables (important for autologin on tty)
 if [ -n "${HOSTNAME}" ] ; then
@@ -47,7 +43,7 @@ fi
 
 export ALTERNATE_EDITOR=""         # A trick so emacs will start daemon if not already
 export EDITOR="emacsclient --tty"  # $EDITOR opens in terminal
-export VISUAL="code-insiders"       # $VISUAL opens in GUI mode
+export VISUAL="${EDITOR}"          # $VISUAL opens in GUI mode
 
 # make sure /usr/bin/id is available
 if [[ -x /usr/bin/id ]] ; then
@@ -75,6 +71,9 @@ export DISTCC_HOSTS="+zeroconf"
 # MAKEDEV should be usable on udev as well by default:
 export WRITE_ON_UDEV=yes
 
+# Kill the lag with <ESC> key
+export KEYTIMEOUT=1
+
 # History
 history_ignore=(
   'history'
@@ -93,7 +92,6 @@ history_ignore=(
 HISTORY_IGNORE="(${(j.|.)history_ignore})"
 
 ## XDG #########################################################################
-{{- if eq .chezmoi.os "linux" }}
 # user directories
 export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
@@ -104,22 +102,49 @@ export XDG_RUNTIME_DIR="/run/user/${UID}"
 # system directories
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
-{{- else if eq .chezmoi.os "darwin" }}
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CACHE_HOME=$HOME/.cache
-export XDG_DATA_HOME=$HOME/.local/share
-export XDG_STATE_HOME=$HOME/.local/state
-{{- else }}
-# user directories
-export XDG_CONFIG_HOME="${HOME}/.config"
-{{- end }}
-
-{{- if eq .chezmoi.os "linux" }}
 ## IBus ########################################################################
 GTK_IM_MODULE=ibus
 QT_IM_MODULE=ibus
 XMODIFIERS=@im=ibus
-{{- end }}
+
+## ENVVARS #####################################################################
+
+# Golang
+export GOPATH=$HOME/go
+
+# Airflow
+export AIRFLOW_HOME=$HOME/airflow
+
+# GnuPG
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+# GnuPG with SSH
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+
+# programs that leverage $XDG_CONFIG_HOME
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
+export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
+export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
+export SHDIR=$XDG_CONFIG_HOME/sh
+export DOTDIR=$XDG_CONFIG_HOME/dotfiles
+export ZDOTDIR=$XDG_CONFIG_HOME/zsh # this will comes after $HOME/.zshenv.
+
+# n instead of nvm
+export N_PREFIX="${HOME}/n";
+
+# Flutter
+export CHROME_EXECUTABLE="chromium"
+# NOTE: This is specific for arch-linux. Though the path should work with most linux.
+# java (should change with archlinux-java instead of hardcording it here)
+# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
+export JAVA_HOME="/usr/lib/jvm/default"
+
+export ANDROID_SDK_ROOT=
+export ANDROID_HOME=
+
+# google-cloud-sdk
+source "/opt/google-cloud-sdk/completion.zsh.inc"
+source "/opt/google-cloud-sdk/path.zsh.inc"
 
 ## PATH ########################################################################
 if (( EUID != 0 )); then
@@ -143,19 +168,19 @@ if (( EUID != 0 )); then
         $HOME/Library/Python/3.9/bin
         $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
         $HOME/homebrew/opt/llvm/bin
-  
+
         /usr/local/bin
         /usr/{bin,sbin}
         /{bin,sbin}
         /Library/Apple/usr/bin
         /usr/libexec
-  
+
         ${path[@]}
       )
       fpath=(
         $ZDOTDIR/completion
         $HOME/homebrew/share/zsh/site-functions
-  
+
         ${fpath[@]}
       )
       ;;
@@ -169,16 +194,16 @@ if (( EUID != 0 )); then
         $HOME/.cargo/bin
         $HOME/.emacs.d/bin
         $HOME/go/bin
-  
+
         /usr/local/bin
         /usr/{bin,sbin}
         /{bin,sbin}
-  
+
         ${path[@]}
       )
       fpath=(
         $ZDOTDIR/completion
-  
+
         ${fpath[@]}
       )
       ;;
@@ -199,96 +224,6 @@ fpath=( "${fpath[@]:#}" )
 
 typeset -U path
 typeset -U fpath
-
-## ENVVARS #####################################################################
-{{- if eq .chezmoi.os "darwin" }}
-## llvm
-export LDFLAGS="-L/Users/anhdle14/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/Users/anhdle14/homebrew/opt/llvm/include"
-{{- end }}
-
-# Golang
-export GOPATH=$HOME/go
-
-# Airflow
-export AIRFLOW_HOME=$HOME/airflow
-
-# GnuPG
-export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
-
-# GnuPG with SSH
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-
-# programs that leverage $XDG_CONFIG_HOME
-export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
-export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
-export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
-export SHDIR=$XDG_CONFIG_HOME/sh
-export DOTDIR=$XDG_CONFIG_HOME/dotfiles
-export ZDOTDIR=$XDG_CONFIG_HOME/zsh # this will comes after $HOME/.zshenv.
-
-# n instead of nvm
-export N_PREFIX="$HOME/n";
-
-# Flutter
-export CHROME_EXECUTABLE="chromium"
-
-{{- if eq .chezmoi.os "linux" }}
-# NOTE: This is specific for arch-linux. Though the path should work with most linux.
-# java (should change with archlinux-java instead of hardcording it here)
-# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
-export JAVA_HOME="/usr/lib/jvm/default"
-
-export ANDROID_SDK_ROOT=
-export ANDROID_HOME=
-
-# google-cloud-sdk
-source "/opt/google-cloud-sdk/completion.zsh.inc"
-source "/opt/google-cloud-sdk/path.zsh.inc"
-{{- else if eq .chezmoi.os "darwin" }}
-# Homebrew
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
-
-# Whalebrew
-export WHALEBREW_INSTALL_PATH="$HOME/bin"
-
-# Homebrew Bundle
-export HOMEBREW_BUNDLE_FILE="$HOME/backups/homebrew/Brewfile"
-
-# Java
-export JAVA_HOME=`/usr/libexec/java_home`
-
-# Android Studio
-export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
-export ANDROID_HOME=$ANDROID_SDK_ROOT
-
-## gcloud
-source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-source $HOME/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
-{{- end }}
-
-# Kill the lag with <ESC> key
-export KEYTIMEOUT=1
-
-## emsdk
-[[ -r $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
-
-## rbenv
-eval "$(rbenv init -)"
-
-## opam
-eval $(opam env)
-
-## Direnv
-eval "$(direnv hook zsh)"
-
-## thefuck
-eval $(thefuck --alias)
-
-
-## Virtualenvwrapper
-source $(which virtualenvwrapper_lazy.sh)
 
 # telemetry stuffs
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1

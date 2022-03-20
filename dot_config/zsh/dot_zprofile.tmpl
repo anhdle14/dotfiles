@@ -60,6 +60,21 @@ else
 fi
 
 {{- if eq .chezmoi.os "linux" }}
+
+# crictl
+if ! type "crictl" > /dev/null; then
+  echo "Please install 'containerd'"
+else
+  [[ ! -r $ZDOTDIR/completion/_crictl ]] && crictl completion zsh >| $ZDOTDIR/completion/_crictl
+fi
+
+# kubeadm
+if ! type "kubeadm" > /dev/null; then
+  echo "Please install 'kubeadm'"
+else
+  [[ ! -r $ZDOTDIR/completion/_kubeadm ]] && kubeadm completion zsh >| $ZDOTDIR/completion/_kubeadm
+fi
+
 # Autostart X
 if [[ -z $DISPLAY && $(tty) == /dev/tty1 ]]; then
   startx

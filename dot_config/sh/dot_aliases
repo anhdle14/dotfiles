@@ -67,8 +67,7 @@ fi
 alias week=`date +%V`
 
 # ip addresses
-alias ip="curl -s api.ipify.org"
-alias localip="ipconfig getifaddr en0"
+alias myip="curl -s api.ipify.org"
 
 # active network interfaces
 alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
@@ -92,6 +91,10 @@ alias gl="cd ~/Developer/gitlab.com"
 # kubectl-aliases
 [ -f ~/.config/dotfiles/submodules/kubectl-aliases/.kubectl_aliases ] && source ~/.config/dotfiles/submodules/kubectl-aliases/.kubectl_aliases
 
+# nettool
+alias netshoot="docker run -it --privileged --net host nicolaka/netshoot"
+
+# TODO: If macos
 alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
 
 ## END OF FILE #################################################################

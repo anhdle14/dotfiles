@@ -14,8 +14,11 @@ fd() {
 
 # clipboard history
 fh() {
+{{- if eq .chezmoi.os "linux" }}
+  echo $( (fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//') | xclip -in -selection clipboard
+{{- else if eq .chezmoi.os "darwin" }}
   echo $( (fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//') | pbcopy
-  echo -n "$ `pbpaste`"
+{{- end }}
 }
 
 # git commit browser

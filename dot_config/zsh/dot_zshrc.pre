@@ -23,6 +23,24 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+## emsdk
+[[ -r $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh ]] && source $HOME/Developer/github.com/emscripten-core/emsdk/emsdk_env.sh &>/dev/null
+
+## rbenv
+eval "$(rbenv init -)"
+
+## opam
+eval $(opam env)
+
+## Direnv
+eval "$(direnv hook zsh)"
+
+## thefuck
+eval $(thefuck --alias)
+
+## Virtualenvwrapper
+source $(which virtualenvwrapper_lazy.sh)
+
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 # code: language=shellscript insertSpaces=true tabsize=2
