@@ -139,12 +139,17 @@ export CHROME_EXECUTABLE="chromium"
 # for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
 export JAVA_HOME="/usr/lib/jvm/default"
 
-export ANDROID_SDK_ROOT=
-export ANDROID_HOME=
+export ANDROID_HOME=$HOME/Android/Sdk
 
 # google-cloud-sdk
 source "/opt/google-cloud-sdk/completion.zsh.inc"
 source "/opt/google-cloud-sdk/path.zsh.inc"
+
+# jupyterlab
+export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
+
+# nextcloud
+export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 
 ## PATH ########################################################################
 if (( EUID != 0 )); then

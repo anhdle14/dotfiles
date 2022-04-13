@@ -2,11 +2,10 @@ enable-ssh-support
 {{- if eq .chezmoi.os "linux" }}
 default-cache-ttl 86400
 max-cache-ttl 172800
-pinentry-program /usr/bin/pinentry
+pinentry-program /usr/bin/pinentry-tty
 {{- else if eq .chezmoi.os "darwin" }}
 default-cache-ttl 60
 max-cache-ttl 120
-pinentry-program /Users/anhdle14/homebrew/bin/pinentry-mac
 {{- else }}
 default-cache-ttl 60
 max-cache-ttl 120
