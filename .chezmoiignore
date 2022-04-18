@@ -1,6 +1,12 @@
+# normally this is the work account
+{{- if ne .chezmoi.username "duc.le" }}
+.google_authenticator
+{{- end }}
+
 {{- if ne .chezmoi.os "darwin" }}
 Library/LaunchAgents
 .config/dotfiles/submodules/flutter
+~/.backups/Brewfile
 {{- end }}
 
 {{- if ne .chezmoi.os "linux" }}

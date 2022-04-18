@@ -23,20 +23,15 @@ Host *
   KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
   HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa,ecdsa-sha2-nistp256
 
-Host github.com
+Host github.*
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa.pub
   PubkeyAcceptedKeyTypes=ssh-rsa
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
-Host gitlab.com
+Host gitlab.*
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa.pub
   PubkeyAcceptedKeyTypes=ssh-rsa
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
-Host ssh.dev.azure.com
-  IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_rsa.pub
-  PubkeyAcceptedKeyTypes=ssh-rsa
-  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com

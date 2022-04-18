@@ -30,7 +30,11 @@ fshow() {
   fz--no-sort --tiebreak=index --no-multi --reverse --ansi \
     --header="enter to view, alt-y to copy hash" --preview="$view_commit" \
     --bind="enter:execute:$view_commit | less -R" \
-    --bind="alt-y:execute:$commit_hash | xclip -selection clipboard"
+    {{- if eq .chezmoi.os "linux" }}
+    --bind="alt-y:execute:$commit_hash | xclip -in -selection clipboard"
+    {{- else if eq .chezmoi.os "darwin" }}
+    --bind="alt-y:execute:$commit_hash | pbcopy"
+    {{- end }}
 }
 
 ## Git #########################################################################
@@ -383,15 +387,15 @@ jdk() {
 ## backup
 backup() {
   command brew bundle dump -f
-  command npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' >| $HOME/backups/npm
-  command pip3 freeze >| $HOME/backups/pip
+  command npm list --global --parseable --depth=0 | sed '1d' | awk '{gsub(/\/.*\//,"",$1); print}' >| $HOME/.backups/npm
+  command pip3 freeze >| $HOME/.backups/pip
 }
 
 ## restore
 restore() {
   command brew bundle --zap
-  command xargs npm install --global < $HOME/backups/npm
-  command pip3 install -r $HOME/backups/pip
+  command xargs npm install --global < $HOME/.backups/npm
+  command pip3 install -r $HOME/.backups/pip
 }
 
 ## orly

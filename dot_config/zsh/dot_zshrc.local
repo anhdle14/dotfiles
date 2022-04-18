@@ -269,10 +269,10 @@ vimpm ()      { vim `perldoc -l $1 | sed -e 's/pod$/pm/'` }
 vimhelp ()    { vim -c "help $1" -c on -c "au! VimEnter *" }
 
 # Aliases
-[[ -r $SHDIR/.aliases ]] && source $SHDIR/.aliases
+[[ -r $SHDIR/aliases ]] && source $SHDIR/aliases
 
 # Functions
-[[ -r $SHDIR/.functions ]] && source $SHDIR/.functions
+[[ -r $SHDIR/functions ]] && source $SHDIR/functions
 
 # Powerlevel10k
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

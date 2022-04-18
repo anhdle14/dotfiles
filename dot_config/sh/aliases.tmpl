@@ -94,8 +94,14 @@ alias gl="cd ~/Developer/gitlab.com"
 # nettool
 alias netshoot="docker run -it --privileged --net host nicolaka/netshoot"
 
-# TODO: If macos
+{{ if eq .chezmoi.os "darwin" -}}
 alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+{{ end -}}
+
+{{ if eq .chezmoi.os "linux" -}}
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+{{ end -}}
 
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2

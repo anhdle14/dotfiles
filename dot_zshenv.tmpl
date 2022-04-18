@@ -41,9 +41,9 @@ else
   export HOSTNAME="$(uname -n)"
 fi
 
-export ALTERNATE_EDITOR=""         # A trick so emacs will start daemon if not already
-export EDITOR="emacsclient --tty"  # $EDITOR opens in terminal
-export VISUAL="${EDITOR}"          # $VISUAL opens in GUI mode
+export ALTERNATE_EDITOR=""      # A trick so emacs will start daemon if not already
+export EDITOR="nvim"            # $EDITOR opens in terminal
+export VISUAL="${EDITOR}"       # $VISUAL opens in GUI mode
 
 # make sure /usr/bin/id is available
 if [[ -x /usr/bin/id ]] ; then
@@ -102,54 +102,12 @@ export XDG_RUNTIME_DIR="/run/user/${UID}"
 # system directories
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
+{{- if eq .chezmoi.os "linux" }}
 ## IBus ########################################################################
 GTK_IM_MODULE=ibus
 QT_IM_MODULE=ibus
 XMODIFIERS=@im=ibus
-
-## ENVVARS #####################################################################
-
-# Golang
-export GOPATH=$HOME/go
-
-# Airflow
-export AIRFLOW_HOME=$HOME/airflow
-
-# GnuPG
-export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
-
-# GnuPG with SSH
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-
-# programs that leverage $XDG_CONFIG_HOME
-export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
-export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
-export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
-export SHDIR=$XDG_CONFIG_HOME/sh
-export DOTDIR=$XDG_CONFIG_HOME/dotfiles
-export ZDOTDIR=$XDG_CONFIG_HOME/zsh # this will comes after $HOME/.zshenv.
-
-# n instead of nvm
-export N_PREFIX="${HOME}/n";
-
-# Flutter
-export CHROME_EXECUTABLE="chromium"
-# NOTE: This is specific for arch-linux. Though the path should work with most linux.
-# java (should change with archlinux-java instead of hardcording it here)
-# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
-export JAVA_HOME="/usr/lib/jvm/default"
-
-export ANDROID_HOME=$HOME/Android/Sdk
-
-# google-cloud-sdk
-source "/opt/google-cloud-sdk/completion.zsh.inc"
-source "/opt/google-cloud-sdk/path.zsh.inc"
-
-# jupyterlab
-export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
-
-# nextcloud
-export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
+{{- end }}
 
 ## PATH ########################################################################
 if (( EUID != 0 )); then
@@ -232,6 +190,59 @@ typeset -U fpath
 
 # telemetry stuffs
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
+
+## ENVVARS #####################################################################
+# Golang
+export GOPATH=$HOME/go
+
+# Airflow
+export AIRFLOW_HOME=$HOME/airflow
+
+# GnuPG
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+# GnuPG with SSH
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+
+# programs that leverage $XDG_CONFIG_HOME
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
+export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
+export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
+export SHDIR=$XDG_CONFIG_HOME/sh
+export DOTDIR=$XDG_CONFIG_HOME/dotfiles
+export ZDOTDIR=$XDG_CONFIG_HOME/zsh # this will comes after $HOME/.zshenv.
+
+# n instead of nvm
+export N_PREFIX="${HOME}/n";
+
+# Flutter
+export CHROME_EXECUTABLE="chromium"
+# NOTE: This is specific for arch-linux. Though the path should work with most linux.
+# java (should change with archlinux-java instead of hardcording it here)
+# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
+export JAVA_HOME="/usr/lib/jvm/default"
+
+export ANDROID_HOME=$HOME/Android/Sdk
+{{- if eq .chezmoi.os "darwin" }}
+
+# google-cloud-sdk
+source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+export HOMEBREW_BUNDLE_FILE=~/.backups/Brewfile
+{{- else if eq .chezmoi.os "linux" }}
+
+# google-cloud-sdk
+source "/opt/google-cloud-sdk/completion.zsh.inc"
+source "/opt/google-cloud-sdk/path.zsh.inc"
+{{- else }}
+{{- end }}
+
+# jupyterlab
+export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
+
+# nextcloud
+export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2

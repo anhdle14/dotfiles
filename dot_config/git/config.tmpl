@@ -88,7 +88,7 @@
 	abbrev = 12
 	autocrlf = "input"
 	compression = 9
-	editor = "emacsclient --tty"
+	editor = "nvim"
 	filemode = false
 	fsyncobjectfiles = true
 	logAllRefUpdates = true
@@ -138,29 +138,19 @@
 [rebase]
 	autosquash = true
 
-[url "git@github.com:anhdle14/"]
+[url "git@github.com:{{ .chezmoi.username }}/"]
 	insteadOf = "ghme:"
 
-[url "git@gitlab.com:anhdle14/"]
+[url "git@gitlab.com:{{ .chezmoi.username }}/"]
 	insteadOf = "glme:"
 
-[url "git@ssh.dev.azure.com:v3/"]
-	insteadOf = "azdo:"
-
 [user]
-	email = "anhdle14@icloud.com"
-	name = "Le Anh Duc"
-	signingKey = "0x0299AFF9ECBB5169"
+  email = {{ .email | quote }}
+  name = {{ .fullName | quote }}
+  signingKey = {{ .gitSigningKey | quote }}
 
 [delta]
 	side-by-side = true
 
 [init]
 	defaultBranch = main
-
-{{- if eq .chezmoi.os "linux" }}
-
-# using gnome-keyring
-[credential]
-	helper = /usr/lib/git-core/git-credential-libsecret
-{{- end }}
