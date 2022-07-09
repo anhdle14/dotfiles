@@ -1,5 +1,5 @@
 {{- if eq .chezmoi.os "linux" }}
-/home/anhdle14/.config/dotfiles/submodules/.tmux/.tmux.conf
+{{ .chezmoi.homeDir }}/.config/dotfiles/submodules/.tmux/.tmux.conf
 {{- else if eq .chezmoi.os "darwin" }}
-/Users/anhdle14/.config/dotfiles/submodules/.tmux/.tmux.conf
+{{ .chezmoi.homeDir }}/.config/dotfiles/submodules/.tmux/.tmux.conf
 {{- end }}

@@ -42,6 +42,18 @@ fi
 
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
+{{- if eq .chezmoi.os "darwin" }}
+
+## Homebrew
+eval $(brew shellenv)
+{{- end }}
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
+
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 # code: language=shellscript insertSpaces=true tabsize=2

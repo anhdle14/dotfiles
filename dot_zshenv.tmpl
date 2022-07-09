@@ -107,12 +107,63 @@ export ZDOTDIR=$XDG_CONFIG_HOME/zsh # this will comes after $HOME/.zshenv.
 # system directories
 export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 export XDG_CONFIG_DIRS="/etc/xdg"
+
 {{- if eq .chezmoi.os "linux" }}
 ## IBus ########################################################################
 GTK_IM_MODULE=ibus
 QT_IM_MODULE=ibus
 XMODIFIERS=@im=ibus
 {{- end }}
+
+## ENVVARS #####################################################################
+# Golang
+export GOPATH=$HOME/go
+
+# Airflow
+export AIRFLOW_HOME=$HOME/airflow
+
+# GnuPG
+export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
+
+# programs that leverage $XDG_CONFIG_HOME
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
+export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
+export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
+
+# n instead of nvm
+export N_PREFIX="${HOME}/n";
+
+# Flutter
+export CHROME_EXECUTABLE="chromium"
+
+# NOTE: This is specific for arch-linux. Though the path should work with most linux.
+# java (should change with archlinux-java instead of hardcording it here)
+# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
+export JAVA_HOME="/usr/lib/jvm/default"
+
+export ANDROID_HOME=$HOME/Android/Sdk
+{{- if eq .chezmoi.os "darwin" }}
+
+# google-cloud-sdk
+source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+
+# homebrew stuffs
+export HOMEBREW_BUNDLE_FILE=~/.backups/Brewfile
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+{{- else if eq .chezmoi.os "linux" }}
+
+# google-cloud-sdk
+source "/opt/google-cloud-sdk/completion.zsh.inc"
+source "/opt/google-cloud-sdk/path.zsh.inc"
+{{- else }}
+{{- end }}
+
+# jupyterlab
+export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
+
+# nextcloud
+export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 
 ## PATH ########################################################################
 if (( EUID != 0 )); then
@@ -123,19 +174,19 @@ if (( EUID != 0 )); then
       # properly. Hence we disable it here and manually update the path
       # eval $($HOME/homebrew/bin/brew shellenv)
       path=(
-        $HOME/homebrew/opt/gnu-getopt/bin
         $HOME/bin
         $HOME/.local/bin
+
+        # version management overlay existing PATH
         $N_PREFIX/bin
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
-        $HOME/.emacs.d/bin
         $HOME/go/bin
-        $HOME/homebrew/bin
-        $HOME/homebrew/sbin
-        $HOME/Library/Python/3.9/bin
+
+        $HOME/homebrew/{bin,sbin}
         $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
         $HOME/homebrew/opt/llvm/bin
+        $HOME/homebrew/opt/gnu-getopt/bin
 
         /usr/local/bin
         /usr/{bin,sbin}
@@ -157,11 +208,13 @@ if (( EUID != 0 )); then
         $HOME/bin
         $HOME/.local/bin
 
+        # version management overlay existing PATH
         $N_PREFIX/bin
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
-        $HOME/.emacs.d/bin
         $HOME/go/bin
+
+        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
 
         /usr/local/bin
         /usr/{bin,sbin}
@@ -193,58 +246,11 @@ fpath=( "${fpath[@]:#}" )
 typeset -U path
 typeset -U fpath
 
-# telemetry stuffs
-export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
-
-## ENVVARS #####################################################################
-# Golang
-export GOPATH=$HOME/go
-
-# Airflow
-export AIRFLOW_HOME=$HOME/airflow
-
-# GnuPG
-export GNUPGHOME="${XDG_CONFIG_HOME}/gnupg"
-
 # GnuPG with SSH
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
-# programs that leverage $XDG_CONFIG_HOME
-export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgrep/.ripgreprc
-export SCREENRC=$XDG_CONFIG_HOME/screen/.screenrc
-export BAT_CONFIG_PATH=$XDG_CONFIG_HOME/bat/bat.conf
-
-# n instead of nvm
-export N_PREFIX="${HOME}/n";
-
-# Flutter
-export CHROME_EXECUTABLE="chromium"
-# NOTE: This is specific for arch-linux. Though the path should work with most linux.
-# java (should change with archlinux-java instead of hardcording it here)
-# for specific applications one should set JAVA_HOME to a specific version listed in archlinux-java
-export JAVA_HOME="/usr/lib/jvm/default"
-
-export ANDROID_HOME=$HOME/Android/Sdk
-{{- if eq .chezmoi.os "darwin" }}
-
-# google-cloud-sdk
-source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-
-export HOMEBREW_BUNDLE_FILE=~/.backups/Brewfile
-{{- else if eq .chezmoi.os "linux" }}
-
-# google-cloud-sdk
-source "/opt/google-cloud-sdk/completion.zsh.inc"
-source "/opt/google-cloud-sdk/path.zsh.inc"
-{{- else }}
-{{- end }}
-
-# jupyterlab
-export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
-
-# nextcloud
-export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
+# telemetry stuffs
+export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2

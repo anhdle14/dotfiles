@@ -1,0 +1,20 @@
+lastName: "Le"
+middleName: "Anh"
+firstName: "Duc"
+fullName: "Duc A. Le"
+email:
+  personal: "anhdle14@icloud.com"
+  work:
+gnupgKeyId:
+  personal: "AA4B8EC3F971D350482E4E200299AFF9ECBB5169"
+  work:
+gnupgKeygrip:
+  personal: "FC21903504F7FA176A7221E941075AD36B17BBAC"
+  work:
+gitSigningKey:
+  personal: "0xD30B5F1BCF43BFDC"
+  work:
+
+# ~/.ssh/config to use correct id_rsa.pub
+workDomains:
+  - "*.example.com"

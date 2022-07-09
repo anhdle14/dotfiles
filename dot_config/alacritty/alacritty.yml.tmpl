@@ -88,7 +88,11 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     #family: "Iosevka"
+{{- if eq .chezmoi.os "linux" }}
+    family: "MesloLGS NF"
+{{- else if eq .chezmoi.os "darwin" }}
     family: "MesloLGS Nerd Font"
+{{- end }}
     # The `style` can be specified to pick a specific face.
     #style: Regular
 
@@ -121,7 +125,7 @@ font:
   #style: Bold Italic
   # Point size
 {{- if eq .chezmoi.os "linux" }}
-  size: 10.0
+  size: 11.0
 {{- else if eq .chezmoi.os "darwin" }}
   size: 14.0
 {{- end }}

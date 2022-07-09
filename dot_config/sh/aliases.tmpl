@@ -96,6 +96,9 @@ alias netshoot="docker run -it --privileged --net host nicolaka/netshoot"
 
 {{ if eq .chezmoi.os "darwin" -}}
 alias flush="sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder"
+
+alias brew="arch --arm64 ${HOME}/homebrew/bin/brew"
+alias brow="arch --x86_64 ${HOME}/homebrew/bin/brew"
 {{ end -}}
 
 {{ if eq .chezmoi.os "linux" -}}

@@ -10,5 +10,5 @@ pinentry-program {{ .chezmoi.homeDir }}/homebrew/bin/pinentry-mac
 {{- else }}
 default-cache-ttl 60
 max-cache-ttl 120
-pinentry-program /usr/bin/pinentry
+pinentry-program /usr/bin/pinentry-tty
 {{- end }}
