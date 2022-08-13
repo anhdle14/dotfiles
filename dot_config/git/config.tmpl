@@ -1,3 +1,6 @@
+[init]
+  defaultBranch = main
+
 [alias]
   alias = "!git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'|sort"
   anychanges = "!sh -c 'git fetch' && git log --oneline HEAD..origin/$1"
@@ -150,11 +153,10 @@
 [includeIf "gitdir:~/Developer/gitlab.com/"]
   path = ~/.config/git/personal
 
-{{- range $domain := .workDomains }}
+{{ range $domain := .workDomains -}}
+
 [includeIf "gitdir:~/Developer/{{ $domain }}/"]
   path = ~/.config/git/work
 
-{{- end }}
+{{ end -}}
 
-[init]
-  defaultBranch = main
