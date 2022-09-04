@@ -48,6 +48,13 @@ fi
 eval $(brew shellenv)
 {{- end }}
 
+## TMux doesn't respect any other files then .zshrc, so will re-source .zshenv
+if [[ -z "${ZSHENV_HAS_BEEN_SOURCED}" ]]
+then
+  source $HOME/.zshenv
+  export ZSHENV_HAS_BEEN_SOURCED=1
+fi
+
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'

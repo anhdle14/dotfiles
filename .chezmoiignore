@@ -25,5 +25,5 @@ bin/dwmbar
 # Documentations folder for advance setup
 .config/kvm
 .config/pam
-
+README.md
 .ssh/etc/*

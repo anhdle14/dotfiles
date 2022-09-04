@@ -93,7 +93,6 @@
   compression = 9
   editor = "nvim"
   filemode = false
-  fsyncobjectfiles = true
   logAllRefUpdates = true
   pager = "delta"
   precomposeunicode = false
@@ -151,6 +150,9 @@
   path = ~/.config/git/personal
 
 [includeIf "gitdir:~/Developer/gitlab.com/"]
+  path = ~/.config/git/personal
+
+[includeIf "gitdir:~/Developer/git.toptal.com/"]
   path = ~/.config/git/personal
 
 {{ range $domain := .workDomains -}}

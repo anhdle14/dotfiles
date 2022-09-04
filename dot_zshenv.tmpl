@@ -176,12 +176,14 @@ if (( EUID != 0 )); then
       path=(
         $HOME/bin
         $HOME/.local/bin
+        $HOME/.local/nvim/bin
 
         # version management overlay existing PATH
         $N_PREFIX/bin
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
         $HOME/go/bin
+        $HOME/.krew/bin
 
         $HOME/homebrew/{bin,sbin}
         $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
@@ -251,6 +253,9 @@ export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
 # telemetry stuffs
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
+
+# fallback for tmux not sourcing other files
+export ZSHENV_HAS_BEEN_SOURCED=1
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
