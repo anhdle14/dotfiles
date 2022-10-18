@@ -17,3 +17,7 @@ Setting up new machines quickly just like mine.
    - If it is related to interactive usage: `.zshrc`
    - If it is a command to be run when the shell is fully setup: `.zlogin`
    - If it releases a resource acquired at login: `.zlogout`
+
+> NOTE: Technically you can put everything in `.zshrc` and called it a day!
+
+## Getting Started

@@ -160,10 +160,13 @@ source "/opt/google-cloud-sdk/path.zsh.inc"
 {{- end }}
 
 # jupyterlab
-export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
+export JUPYTERLAB_DIR="${HOME}/.local/share/jupyter/lab"
 
 # nextcloud
 export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
+
+# pnpm
+export PNPM_HOLE="${HOME}/.local/share/pnpm"
 
 ## PATH ########################################################################
 if (( EUID != 0 )); then
@@ -180,6 +183,7 @@ if (( EUID != 0 )); then
 
         # version management overlay existing PATH
         $N_PREFIX/bin
+        $PNPM_HOME
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
         $HOME/go/bin
@@ -253,9 +257,6 @@ export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
 # telemetry stuffs
 export FUNCTIONS_CORE_TOOLS_TELEMETRY_OUTPUT=1
-
-# fallback for tmux not sourcing other files
-export ZSHENV_HAS_BEEN_SOURCED=1
 
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2

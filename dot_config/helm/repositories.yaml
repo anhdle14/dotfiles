@@ -82,3 +82,21 @@ repositories:
   password: ""
   url: https://helm.pomerium.io
   username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: istio
+  pass_credentials_all: false
+  password: ""
+  url: https://istio-release.storage.googleapis.com/charts
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: oauth2-proxy
+  pass_credentials_all: false
+  password: ""
+  url: https://oauth2-proxy.github.io/manifests
+  username: ""
