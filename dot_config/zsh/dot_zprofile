@@ -1,0 +1,16 @@
+# Filename:      .zprofile
+# Purpose:       user-wide .zprofile file for zsh(1)
+# Authors:       anhdle14 (github.com/anhdle14), (c) Duc Le <anhdle14@icloud.com>
+# Bug-Reports:   see http://github.com/anhdle14/dotfiles/issues
+# License:       This file is licensed under the MIT License
+################################################################################
+# This file is sourced only for login shells (i.e. shells
+# invoked with "-" as the first character of argv[0], and
+# shells invoked with the -l flag). It's read after zshenv.
+#
+# Global Order: zshenv, zprofile, zshrc, zlogin
+################################################################################
+
+## END OF FILE #################################################################
+# vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
+# code: language=shellscript insertSpaces=true tabsize=2

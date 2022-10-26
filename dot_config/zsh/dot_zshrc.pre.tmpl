@@ -9,6 +9,91 @@
 # configuration after grml's zshrc and .zshrc.pre for local configuration
 # beofre grml's zshrc.
 ################################################################################
+# Path
+if (( EUID != 0 )); then
+  case $(uname 2>/dev/null) in
+    Darwin)
+      # Brew
+      # Normally this is all one needed, unfortunately it can not be injected
+      # properly. Hence we disable it here and manually update the path
+      # eval $($HOME/homebrew/bin/brew shellenv)
+      path=(
+        $HOME/bin
+        $HOME/.local/bin
+        $HOME/.local/nvim/bin
+
+        # version management overlay existing PATH
+        $N_PREFIX/bin
+        $PNPM_HOME
+        $HOME/.rbenv/bin
+        $HOME/.cargo/bin
+        $HOME/go/bin
+        $HOME/.krew/bin
+
+        $HOME/homebrew/{bin,sbin}
+        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
+        $HOME/homebrew/opt/llvm/bin
+        $HOME/homebrew/opt/gnu-getopt/bin
+
+        /usr/local/bin
+        /usr/{bin,sbin}
+        /{bin,sbin}
+        /Library/Apple/usr/bin
+        /usr/libexec
+
+        ${path[@]}
+      )
+      fpath=(
+        $ZDOTDIR/completion
+        $HOME/homebrew/share/zsh/site-functions
+
+        ${fpath[@]}
+      )
+      ;;
+    Linux)
+      path=(
+        $HOME/bin
+        $HOME/.local/bin
+
+        # version management overlay existing PATH
+        $N_PREFIX/bin
+        $HOME/.rbenv/bin
+        $HOME/.cargo/bin
+        $HOME/go/bin
+
+        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
+
+        /usr/local/bin
+        /usr/{bin,sbin}
+        /{bin,sbin}
+
+        ${path[@]}
+      )
+      fpath=(
+        $ZDOTDIR/completion
+
+        ${fpath[@]}
+      )
+      ;;
+  esac
+else
+  path=(
+    ${ADDONS}
+    ${path[@]}
+  )
+  fpath=(
+    ${fpath[@]}
+  )
+fi
+
+# remove empty components to avoid '::' ending up + resulting in './' being in $PATH
+path=( "${path[@]:#}" )
+fpath=( "${fpath[@]:#}" )
+
+typeset -U path
+typeset -U fpath
+
+
 # make sure the correct GPG_TTY is being used
 export GPG_TTY=$TTY
 gpg-connect-agent updatestartuptty /bye &>/dev/null
@@ -53,6 +138,77 @@ if [[ -z "${TMUX}" ]]
 then
   source $HOME/.zshenv
 fi
+
+# Kubectl
+if ! type "kubectl" > /dev/null; then
+  echo "Please install 'kubectl'"
+else
+  [[ ! -r $ZDOTDIR/completion/_kubectl ]] && kubectl completion zsh >| $ZDOTDIR/completion/_kubectl
+fi
+
+# Kind
+if ! type "kind" > /dev/null; then
+  echo "Please install 'kind'"
+else
+  [[ ! -r $ZDOTDIR/completion/_kind ]] && kind completion zsh >| $ZDOTDIR/completion/_kind
+fi
+
+# Helm
+if ! type "helm" > /dev/null; then
+  echo "Please install 'helm'"
+else
+  [[ ! -r $ZDOTDIR/completion/_helm ]] && helm completion zsh >| $ZDOTDIR/completion/_helm
+fi
+
+# Skaffold
+if ! type "skaffold" > /dev/null; then
+  echo "Please install 'skaffold'"
+else
+  [[ ! -r $ZDOTDIR/completion/_skaffold ]] && skaffold completion zsh >| $ZDOTDIR/completion/_skaffold
+fi
+
+# Istioctl
+if ! type "istioctl" > /dev/null; then
+  echo "Please install 'istioctl'"
+else
+  [[ ! -r $ZDOTDIR/completion/_istioctl ]] && istioctl collateral --zsh -o $ZDOTDIR/completion
+fi
+
+# Stern
+if ! type "stern" > /dev/null; then
+  echo "Please install 'stern'"
+else
+  [[ ! -r $ZDOTDIR/completion/_stern ]] && stern --completion zsh >| $ZDOTDIR/completion/_stern
+fi
+
+# Deno
+if ! type "deno" > /dev/null; then
+  echo "Please install 'deno'"
+else
+  [[ ! -r $ZDOTDIR/completion/_deno ]] && deno completions zsh >| $ZDOTDIR/completion/_deno
+fi
+
+{{- if eq .chezmoi.os "linux" }}
+
+# crictl
+if ! type "crictl" > /dev/null; then
+  echo "Please install 'containerd'"
+else
+  [[ ! -r $ZDOTDIR/completion/_crictl ]] && crictl completion zsh >| $ZDOTDIR/completion/_crictl
+fi
+
+# kubeadm
+if ! type "kubeadm" > /dev/null; then
+  echo "Please install 'kubeadm'"
+else
+  [[ ! -r $ZDOTDIR/completion/_kubeadm ]] && kubeadm completion zsh >| $ZDOTDIR/completion/_kubeadm
+fi
+
+# Autostart X
+if [[ -z $DISPLAY && $(tty) == /dev/tty1 ]]; then
+  startx
+fi
+{{- end }}
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then

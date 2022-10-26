@@ -74,23 +74,6 @@ export WRITE_ON_UDEV=yes
 # Kill the lag with <ESC> key
 export KEYTIMEOUT=1
 
-# History
-history_ignore=(
-  'history'
-  'env'
-  'printenv'
-  'ls *'
-  'ls -1'
-  'cd *'
-  'cd .*'
-  'clear'
-  'pwd'
-  'exit'
-  'date'
-  '* --help'
-)
-HISTORY_IGNORE="(${(j.|.)history_ignore})"
-
 ## XDG #########################################################################
 # user directories
 export XDG_CONFIG_HOME="${HOME}/.config"
@@ -167,90 +150,6 @@ export NEXTCLOUD_PHP_CONFIG=/etc/webapps/nextcloud/php.ini
 
 # pnpm
 export PNPM_HOLE="${HOME}/.local/share/pnpm"
-
-## PATH ########################################################################
-if (( EUID != 0 )); then
-  case $(uname 2>/dev/null) in
-    Darwin)
-      # Brew
-      # Normally this is all one needed, unfortunately it can not be injected
-      # properly. Hence we disable it here and manually update the path
-      # eval $($HOME/homebrew/bin/brew shellenv)
-      path=(
-        $HOME/bin
-        $HOME/.local/bin
-        $HOME/.local/nvim/bin
-
-        # version management overlay existing PATH
-        $N_PREFIX/bin
-        $PNPM_HOME
-        $HOME/.rbenv/bin
-        $HOME/.cargo/bin
-        $HOME/go/bin
-        $HOME/.krew/bin
-
-        $HOME/homebrew/{bin,sbin}
-        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
-        $HOME/homebrew/opt/llvm/bin
-        $HOME/homebrew/opt/gnu-getopt/bin
-
-        /usr/local/bin
-        /usr/{bin,sbin}
-        /{bin,sbin}
-        /Library/Apple/usr/bin
-        /usr/libexec
-
-        ${path[@]}
-      )
-      fpath=(
-        $ZDOTDIR/completion
-        $HOME/homebrew/share/zsh/site-functions
-
-        ${fpath[@]}
-      )
-      ;;
-    Linux)
-      path=(
-        $HOME/bin
-        $HOME/.local/bin
-
-        # version management overlay existing PATH
-        $N_PREFIX/bin
-        $HOME/.rbenv/bin
-        $HOME/.cargo/bin
-        $HOME/go/bin
-
-        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
-
-        /usr/local/bin
-        /usr/{bin,sbin}
-        /{bin,sbin}
-
-        ${path[@]}
-      )
-      fpath=(
-        $ZDOTDIR/completion
-
-        ${fpath[@]}
-      )
-      ;;
-  esac
-else
-  path=(
-    ${ADDONS}
-    ${path[@]}
-  )
-  fpath=(
-    ${fpath[@]}
-  )
-fi
-
-# remove empty components to avoid '::' ending up + resulting in './' being in $PATH
-path=( "${path[@]:#}" )
-fpath=( "${fpath[@]:#}" )
-
-typeset -U path
-typeset -U fpath
 
 # GnuPG with SSH
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
