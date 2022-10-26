@@ -93,6 +93,8 @@ fpath=( "${fpath[@]:#}" )
 typeset -U path
 typeset -U fpath
 
+# GnuPG with SSH
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
 # make sure the correct GPG_TTY is being used
 export GPG_TTY=$TTY
