@@ -1,3 +1,7 @@
 encryption: gpg
 gpg:
   recipient: {{ .gnupgKeyId.personal | quote }}
+
+diff:
+  command: delta
+  args: []
