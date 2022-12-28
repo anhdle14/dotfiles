@@ -403,6 +403,12 @@ orly() {
   (docker run kirinnee/orly:latest login $1 $ORLY_EMAIL:$ORLY_PASSWORD) >| $HOME/Downloads/$2.epub
 }
 
+## tf-boilerplates
+tf-module-prepare() {
+  touch {variables,providers,backend,outputs,main}.tf
+}
+
+
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 # code: language=shellscript insertSpaces=true tabsize=2
