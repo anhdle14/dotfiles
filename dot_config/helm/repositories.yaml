@@ -100,3 +100,30 @@ repositories:
   password: ""
   url: https://oauth2-proxy.github.io/manifests
   username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: cilium
+  pass_credentials_all: false
+  password: ""
+  url: https://helm.cilium.io/
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: grafana
+  pass_credentials_all: false
+  password: ""
+  url: https://grafana.github.io/helm-charts
+  username: ""
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: localstack-charts
+  pass_credentials_all: false
+  password: ""
+  url: https://localstack.github.io/helm-charts
+  username: ""
