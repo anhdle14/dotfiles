@@ -88,11 +88,7 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     #family: "Iosevka"
-{{- if eq .chezmoi.os "linux" }}
-    family: "MesloLGS NF"
-{{- else if eq .chezmoi.os "darwin" }}
-    family: "MesloLGS Nerd Font"
-{{- end }}
+    family: "Iosevka Nerd Font"
     # The `style` can be specified to pick a specific face.
     #style: Regular
 
@@ -127,7 +123,7 @@ font:
 {{- if eq .chezmoi.os "linux" }}
   size: 11.0
 {{- else if eq .chezmoi.os "darwin" }}
-  size: 14.0
+  size: 15.0
 {{- end }}
 
   # Offset is the extra space around each character. `offset.y` can be thought of
