@@ -280,9 +280,6 @@ eval "$(saml2aws --completion-script-zsh)"
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 [[ ! -f $DOTDIR/submodules/powerlevel10k/powerlevel10k.zsh-theme ]] || source $DOTDIR/submodules/powerlevel10k/powerlevel10k.zsh-theme
 
-# Vi
-bindkey -v
-
 ## END OF FILE #################################################################
 # vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 # code: language=shellscript insertSpaces=true tabsize=2

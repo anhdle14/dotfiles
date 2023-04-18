@@ -1,3 +1,11 @@
-alacritty-themes
-git-cz
+pops
+node-pre-gyp
+changelog
+commit-analyzer
+exec
+git
+github
+release-notes-generator
 npm
+pnpm
+yarn
