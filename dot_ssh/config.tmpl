@@ -33,8 +33,8 @@ Host github.com
   IdentityFile ~/.ssh/id_rsa.pub
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
-Host github.com-work
-  Hostname github.com
+Host work.github.com
+  HostName github.com
   User git
   IdentitiesOnly yes
   UpdateHostKeys yes
@@ -57,4 +57,3 @@ Host {{ $domain }}
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
 {{ end -}}
-

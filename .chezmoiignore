@@ -26,4 +26,3 @@ bin/dwmbar
 .config/kvm
 .config/pam
 README.md
-.ssh/etc/*
