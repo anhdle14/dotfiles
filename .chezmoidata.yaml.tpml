@@ -6,13 +6,16 @@ email:
   personal: "anhdle14@icloud.com"
   work:
 gnupgKeyId:
-  personal: "AA4B8EC3F971D350482E4E200299AFF9ECBB5169"
+  personal:
   work:
 gnupgKeygrip:
-  personal: "FC21903504F7FA176A7221E941075AD36B17BBAC"
+  personal:
+  work:
+sshcontrolKeygrip:
+  personal:
   work:
 gitSigningKey:
-  personal: "0xD30B5F1BCF43BFDC"
+  personal:
   work:
 
 # ~/.ssh/config to use correct id_rsa.pub
