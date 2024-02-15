@@ -3,6 +3,7 @@
 
 [alias]
   alias = "!git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1 => \\2/' | grep -v 'alias'| awk 'BEGIN { FS = \"=>\" }{ printf(\"%-20s=>%s\\n\", $1,$2)}'|sort"
+  whoami = "!git config user.name && git config user.email"
   anychanges = "!sh -c 'git fetch' && git log --oneline HEAD..origin/$1"
   anychangesonmaster = "!sh -c 'git fetch' && git log --oneline HEAD..origin/master"
   apm = "!f() { git add --all && git commit -m \"$@\" && git push; }; f"
@@ -156,6 +157,9 @@
   path = ~/.config/git/personal
 
 {{ range $domain := .workDomains -}}
+
+[includeIf "gitdir:~/Developer/work.github.com/"]
+  path = ~/.config/git/work
 
 [includeIf "gitdir:~/Developer/{{ $domain }}/"]
   path = ~/.config/git/work

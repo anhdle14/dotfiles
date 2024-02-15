@@ -4,7 +4,6 @@
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
-Library/LaunchAgents
 .config/dotfiles/submodules/flutter
 ~/.backups/Brewfile
 ~/bin/macos.sh

@@ -28,6 +28,7 @@ Host i-* mi-*
   ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
 
 Host github.com
+  User git
   IdentitiesOnly yes
   UpdateHostKeys yes
   IdentityFile ~/.ssh/id_rsa.pub
@@ -42,6 +43,7 @@ Host work.github.com
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
 Host gitlab.com
+  User git
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa.pub
   PubkeyAcceptedKeyTypes=ssh-rsa
@@ -50,6 +52,7 @@ Host gitlab.com
 {{ range $domain := .workDomains -}}
 
 Host {{ $domain }}
+  User git
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_rsa_work.pub
   UpdateHostKeys yes
