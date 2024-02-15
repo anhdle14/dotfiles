@@ -1,4 +1,4 @@
-# Filename:      .zshrc
+# Filename:      /etc/zsh/zshrc
 # Purpose:       config file for zsh (z shell)
 # Authors:       grml-team (grml.org), (c) Michael Prokop <mika@grml.org>
 # Bug-Reports:   see http://grml.org/bugs/
@@ -10,6 +10,7 @@
 #
 # Global Order: zshenv, zprofile, zshrc, zlogin
 ################################################################################
+
 # USAGE
 # If you are using this file as your ~/.zshrc file, please use ~/.zshrc.pre
 # and ~/.zshrc.local for your own customisations. The former file is read
@@ -337,7 +338,7 @@ function zrcautoload () {
     return 0
 }
 
-# The following is the ‘add-zsh-hook’ function from zsh upstream. It is
+# The following is the â€˜add-zsh-hookâ€™ function from zsh upstream. It is
 # included here to make the setup work with older versions of zsh (prior to
 # 4.3.7) in which this function had a bug that triggers annoying errors during
 # shell startup. This is exactly upstreams code from f0068edb4888a4d8fe94def,
@@ -890,14 +891,21 @@ function grmlcomp () {
     fi
 
     # host completion
+    _etc_hosts=()
+    _ssh_config_hosts=()
+    _ssh_hosts=()
     if is42 ; then
-        [[ -r ~/.ssh/config ]] && _ssh_config_hosts=(${${(s: :)${(ps:\t:)${${(@M)${(f)"$(<$HOME/.ssh/config)"}:#Host *}#Host }}}:#*[*?]*}) || _ssh_config_hosts=()
-        [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
-        [[ -r /etc/hosts ]] && [[ "$NOETCHOSTS" -eq 0 ]] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(grep -v '^0\.0\.0.\0\|^127\.0\.0\.1\|^::1 ' /etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
-    else
-        _ssh_config_hosts=()
-        _ssh_hosts=()
-        _etc_hosts=()
+        if [[ -r ~/.ssh/config ]] ; then
+            _ssh_config_hosts=(${${(s: :)${(ps:\t:)${${(@M)${(f)"$(<$HOME/.ssh/config)"}:#Host *}#Host }}}:#*[*?]*})
+        fi
+
+        if [[ -r ~/.ssh/known_hosts ]] ; then
+            _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*})
+        fi
+
+        if [[ -r /etc/hosts ]] && [[ "$NOETCHOSTS" -eq 0 ]] ; then
+            : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(grep -v '^0\.0\.0\.0\|^127\.0\.0\.1\|^::1 ' /etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}}
+        fi
     fi
 
     local localname
@@ -937,7 +945,7 @@ function grmlcomp () {
 #     - zle-line-finish():    zle-rmkx
 
 # Use emacs-like key bindings by default:
-bindkey -v
+bindkey -e
 
 # Custom widgets:
 
@@ -1373,7 +1381,6 @@ zle -N help-zle
 ## complete word from currently visible Screen or Tmux buffer.
 if check_com -c screen || check_com -c tmux; then
     function _complete_screen_display () {
-        [[ "$TERM" != "screen" ]] && return 1
 
         local TMPFILE=$(mktemp)
         local -U -a _screen_display_wordlist
@@ -1384,8 +1391,9 @@ if check_com -c screen || check_com -c tmux; then
             #works, but crashes tmux below version 1.4
             #luckily tmux -V option to ask for version, was also added in 1.4
             tmux -V &>/dev/null || return
-            tmux -q capture-pane \; save-buffer -b 0 $TMPFILE \; delete-buffer -b 0
+            tmux -q capture-pane -b 0 \; save-buffer -b 0 $TMPFILE \; delete-buffer -b 0
         else
+            [[ "$TERM" != "screen" ]] && return
             screen -X hardcopy $TMPFILE
             # screen sucks, it dumps in latin1, apparently always. so recode it
             # to system charset
@@ -1574,7 +1582,7 @@ bind2maps emacs viins       -- -s '^x1' jump_after_first_word
 bind2maps emacs viins       -- -s "^x^x" hist-complete
 
 # insert unicode character
-# usage example: 'ctrl-x i' 00A7 'ctrl-x i' will give you an §
+# usage example: 'ctrl-x i' 00A7 'ctrl-x i' will give you an Â§
 # See for example http://unicode.org/charts/ for unicode characters code
 #k# Insert Unicode character
 bind2maps emacs viins       -- -s '^xi' insert-unicode-char
@@ -2152,7 +2160,7 @@ function grml_prompt_setup () {
     emulate -L zsh
     autoload -Uz vcs_info
     # The following autoload is disabled for now, since this setup includes a
-    # static version of the ‘add-zsh-hook’ function above. It needs to be
+    # static version of the â€˜add-zsh-hookâ€™ function above. It needs to be
     # re-enabled as soon as that static definition is removed again.
     #autoload -Uz add-zsh-hook
     add-zsh-hook precmd prompt_$1_precmd
@@ -2616,7 +2624,7 @@ function grml_control_xterm_title () {
 }
 
 # The following autoload is disabled for now, since this setup includes a
-# static version of the ‘add-zsh-hook’ function above. It needs to be
+# static version of the â€˜add-zsh-hookâ€™ function above. It needs to be
 # re-enabled as soon as that static definition is removed again.
 #zrcautoload add-zsh-hook || add-zsh-hook () { :; }
 if [[ $NOPRECMD -eq 0 ]]; then
@@ -2677,13 +2685,13 @@ else
 fi
 
 # use ip from iproute2 with color support
-# if ip -color=auto addr show dev lo >/dev/null 2>&1; then
-#     alias ip='command ip -color=auto'
-# fi
+if ip -color=auto addr show dev lo >/dev/null 2>&1; then
+    alias ip='command ip -color=auto'
+fi
 
-# if [[ -r /proc/mdstat ]]; then
-#     alias mdstat='cat /proc/mdstat'
-# fi
+if [[ -r /proc/mdstat ]]; then
+    alias mdstat='cat /proc/mdstat'
+fi
 
 alias ...='cd ../../'
 
@@ -2840,7 +2848,7 @@ if [ -e /var/log/syslog ] ; then
   #a1# Take a look at the syslog: \kbd{\$PAGER /var/log/syslog || journalctl}
   salias llog="$PAGER /var/log/syslog"     # take a look at the syslog
   #a1# Take a look at the syslog: \kbd{tail -f /var/log/syslog || journalctl}
-  salias tlog="tail -f /var/log/syslog"    # follow the syslog
+  salias tlog="tail --follow=name /var/log/syslog"    # follow the syslog
 elif check_com -c journalctl ; then
   salias llog="journalctl"
   salias tlog="journalctl -f"
@@ -2911,7 +2919,7 @@ is4    && isgrml    && grmlstuff
 is4    && grmlcomp
 
 # keephack
-is4 && xsource "$ZDOTDIR/keephack"
+is4 && xsource "/etc/zsh/keephack"
 
 # wonderful idea of using "e" glob qualifier by Peter Stephenson
 # You use it as follows:
@@ -3943,5 +3951,7 @@ unfunction grml_status_feature
 #@# split functions-search 8
 
 ## END OF FILE #################################################################
-# vim: filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
-# code: language=shellscript insertSpaces=true tabsize=2
+# vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
+# Local variables:
+# mode: sh
+# End:

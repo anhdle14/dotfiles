@@ -117,9 +117,6 @@ eval $(opam env)
 ## thefuck
 eval $(thefuck --alias)
 
-## Virtualenvwrapper
-source $(which virtualenvwrapper_lazy.sh)
-
 # Enable Powerlevel10k instant prompt.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -206,6 +203,13 @@ if ! type "kubeadm" > /dev/null; then
   echo "Please install 'kubeadm'"
 else
   [[ ! -r $ZDOTDIR/completion/_kubeadm ]] && kubeadm completion zsh >| $ZDOTDIR/completion/_kubeadm
+fi
+
+# saml2aws
+if ! type "saml2aws" > /dev/null; then
+  echo "Please install 'saml2aws'"
+else
+  eval "$(saml2aws --completion-script-zsh)"
 fi
 
 # Autostart X
