@@ -1,7 +1,13 @@
 encryption: gpg
 gpg:
+
+{{- if .gnupgKeyId.work }}
+  recipient: {{ .gnupgKeyId.work | quote }}
+{{- else }}
   recipient: {{ .gnupgKeyId.personal | quote }}
+{{- end }}
 
 diff:
   command: delta
   args: []
+
