@@ -1,5 +1,4 @@
 live_config_reload = true
-theme = "Gruvbox-Dark"
 
 [colors.bright]
 black = "#928374"
