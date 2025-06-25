@@ -18,6 +18,5 @@ gitSigningKey:
   personal:
   work:
 
-# ~/.ssh/config to use correct id_rsa.pub
 workDomains:
   - "*.example.com"
