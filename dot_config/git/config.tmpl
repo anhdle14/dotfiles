@@ -137,12 +137,17 @@
 [push]
   default = "tracking"
   followTags = true
+  autoSetupRemote = true
 
 [rebase]
   autosquash = true
 
 [delta]
   side-by-side = true
+
+[user]
+  email = "{{ .email.personal }}"
+  name = "Duc Le"
 
 [includeIf "gitdir:~/.local/share/chezmoi/"]
   path = ~/.config/git/personal

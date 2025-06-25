@@ -25,36 +25,36 @@ Host *
 
 # AWS
 Host i-* mi-*
-  ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+  ProxyCommand sh -c "aws ssm start-session --target %h"
 
 Host github.com
   User git
-  IdentitiesOnly yes
   UpdateHostKeys yes
-  IdentityFile ~/.ssh/id_rsa.pub
-  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
-
-Host work.github.com
-  HostName github.com
-  User git
   IdentitiesOnly yes
-  UpdateHostKeys yes
-  IdentityFile ~/.ssh/id_rsa_work.pub
+  IdentityFile ~/.ssh/id_ed25519.pub
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
 Host gitlab.com
+  User git
+  UpdateHostKeys yes
   IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_rsa.pub
-  PubkeyAcceptedKeyTypes=ssh-rsa
+  IdentityFile ~/.ssh/id_ed25519.pub
+  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+
+Host work.github.com
+  User git
+  HostName github.com
+  UpdateHostKeys yes
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_ed25519_work.pub
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
 {{ range $domain := .workDomains -}}
 
 Host {{ $domain }}
-  IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_rsa_work.pub
   UpdateHostKeys yes
-  PubkeyAcceptedKeyTypes=ssh-rsa
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_ed25519_work.pub
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
 {{ end -}}

@@ -30,26 +30,26 @@ alias c='code-insiders'
 # Curl currently doesn't support $XDG_CONFIG_HOME
 alias curl="curl -K $XDG_CONFIG_HOME/curl/.curlrc"
 
-# exa instead of ls
-if ! type "exa" > /dev/null; then
-  echo "Please install 'exa'"
-  alias dir="command exa -lSrah"
-  alias lad='command exa -d .*(/)'
-  alias lsa='command exa -a .*(.)'
-  alias lss='command exa -l *(s,S,t)'
-  alias lsl='command exa -l *(@)'
-  alias lsx='command exa -l *(*)'
-  alias lsw='command exa -ld *(R,W,X.^ND/)'
-  alias lsbig="command exa -flh *(.OL[1,10])"
-  alias lsd='command exa -d *(/)'
-  alias lse='command exa -d *(/^F)'
-  alias lsnew="command exa -rtlh *(D.om[1,10])"
-  alias lsold="command exa -rtlh *(D.Om[1,10])"
-  alias lssmall="command exa -Srl *(.oL[1,10])"
-  alias lsnewdir="command exa -rthdl *(/om[1,10]) .*(D/om[1,10])"
-  alias lsolddir="command exa -rthdl *(/Om[1,10]) .*(D/Om[1,10])"
+# eza instead of ls
+if ! type "eza" > /dev/null; then
+  echo "Please install 'eza'"
+  alias dir="command eza -lSrah"
+  alias lad='command eza -d .*(/)'
+  alias lsa='command eza -a .*(.)'
+  alias lss='command eza -l *(s,S,t)'
+  alias lsl='command eza -l *(@)'
+  alias lsx='command eza -l *(*)'
+  alias lsw='command eza -ld *(R,W,X.^ND/)'
+  alias lsbig="command eza -flh *(.OL[1,10])"
+  alias lsd='command eza -d *(/)'
+  alias lse='command eza -d *(/^F)'
+  alias lsnew="command eza -rtlh *(D.om[1,10])"
+  alias lsold="command eza -rtlh *(D.Om[1,10])"
+  alias lssmall="command eza -Srl *(.oL[1,10])"
+  alias lsnewdir="command eza -rthdl *(/om[1,10]) .*(D/om[1,10])"
+  alias lsolddir="command eza -rthdl *(/Om[1,10]) .*(D/Om[1,10])"
 else
-  alias ls="exa"
+  alias ls="eza"
 fi
 
 # bat instead of cat
@@ -74,6 +74,7 @@ alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'
 
 # apps
 alias tf="terraform"
+alias tg="terragrunt"
 alias k="kubectl"
 alias ktx="kubectx"
 alias kns="kubens"
