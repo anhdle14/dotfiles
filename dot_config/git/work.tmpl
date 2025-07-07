@@ -1,4 +1,6 @@
+{{ if .email.work }}
 [user]
   email = {{ .email.work | quote }}
   name = {{ .fullName | quote }}
-  signingKey = {{ .gitSigningKey.work | quote }}
+  signingKey = {{ .gitSigningKey | quote }}
+{{ end }}

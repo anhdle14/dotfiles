@@ -128,8 +128,8 @@ export ANDROID_HOME=$HOME/Android/Sdk
 
 {{- if eq .chezmoi.os "darwin" }}
 # google-cloud-sdk
-source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "${HOME}/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 
 # homebrew stuffs
 export HOMEBREW_BUNDLE_FILE=~/.backups/Brewfile

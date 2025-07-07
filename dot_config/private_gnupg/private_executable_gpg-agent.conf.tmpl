@@ -3,7 +3,7 @@ ttyname $GPG_TTY
 {{- if eq .chezmoi.os "linux" }}
 pinentry-program /usr/bin/pinentry-tty
 {{- else if eq .chezmoi.os "darwin" }}
-pinentry-program {{ .chezmoi.homeDir }}/homebrew/bin/pinentry-mac
+pinentry-program /opt/homebrew/bin/pinentry-mac
 {{- else }}
 default-cache-ttl 60
 max-cache-ttl 120

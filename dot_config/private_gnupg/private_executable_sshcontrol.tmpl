@@ -10,9 +10,4 @@
 # flags.   Prepend the keygrip with an '!' mark to disable it.
 
 # Personal
-{{ .sshcontrolKeygrip.personal }}
-
-{{ if .sshcontrolKeygrip.work }}
-# Work
-{{ .sshcontrolKeygrip.work }}
-{{ end }}
+{{ .sshcontrolKeygrip }}

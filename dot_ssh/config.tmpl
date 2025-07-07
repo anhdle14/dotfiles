@@ -40,21 +40,20 @@ Host gitlab.com
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_ed25519.pub
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
-
+{{ if .email.work }}
 Host work.github.com
   User git
   HostName github.com
   UpdateHostKeys yes
   IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_ed25519_work.pub
+  IdentityFile ~/.ssh/id_ed25519_sk
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
-
+{{ end }}
 {{ range $domain := .workDomains -}}
-
 Host {{ $domain }}
   UpdateHostKeys yes
   IdentitiesOnly yes
-  IdentityFile ~/.ssh/id_ed25519_work.pub
+  IdentityFile ~/.ssh/id_ed25519_sk
   MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 
-{{ end -}}
+{{ end }}

@@ -13,10 +13,6 @@
 if (( EUID != 0 )); then
   case $(uname 2>/dev/null) in
     Darwin)
-      # Brew
-      # Normally this is all one needed, unfortunately it can not be injected
-      # properly. Hence we disable it here and manually update the path
-      # eval $($HOME/homebrew/bin/brew shellenv)
       path=(
         $HOME/bin
         $HOME/.local/bin
@@ -31,10 +27,9 @@ if (( EUID != 0 )); then
         $HOME/go/bin
         $HOME/.krew/bin
 
-        $HOME/homebrew/{bin,sbin}
-        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
-        $HOME/homebrew/opt/llvm/bin
-        $HOME/homebrew/opt/gnu-getopt/bin
+        /opt/homebrew/{bin,sbin}
+        /opt/homebrew/opt/llvm/bin
+        /opt/homebrew/opt/gnu-getopt/bin
 
         /usr/local/bin
         /usr/{bin,sbin}
@@ -46,7 +41,7 @@ if (( EUID != 0 )); then
       )
       fpath=(
         $ZDOTDIR/completion
-        $HOME/homebrew/share/zsh/site-functions
+        /opt/homebrew/share/zsh/site-functions
 
         ${fpath[@]}
       )
@@ -62,8 +57,6 @@ if (( EUID != 0 )); then
         $HOME/.rbenv/bin
         $HOME/.cargo/bin
         $HOME/go/bin
-
-        $XDG_CONFIG_HOME/dotfiles/submodules/flutter/bin
 
         /usr/local/bin
         /usr/{bin,sbin}
@@ -126,12 +119,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
-
-{{- if eq .chezmoi.os "darwin" }}
-
-## Homebrew
-eval $(brew shellenv)
-{{- end }}
 
 ## TMux doesn't respect any other files then .zshrc, so will re-source .zshenv
 if [[ -z "${TMUX}" ]]

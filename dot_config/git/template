@@ -1,41 +1,21 @@
-# usage: git config commit.template .gitmessage
-#<------------------------- 72 characters ---------------------------->
+# <type>(<scope>): <subject>
+# Example: feat(auth): add JWT login functionality
+# Commit types: feat | fix | docs | style | refactor | perf | test | chore | build | ci
+# Scopes: Functional scopes
+# -------------------- COMMIT MESSAGE --------------------
+
+<type>(<scope>): <short summary of the change>
+
+# -------------------- BODY (Optional) --------------------
+# Describe the motivation, background, and details of the change. (Markdown preferred)
 #
-# The seven rules of a great Git commit messsage
-# 1. Separate subject from body with a blank line
-# 2. Limit the subject line to 50 characters
-# 3. Capitalize the subject line
-# 4. Do not end the subject line with a period
-# 5. Use the imperative mood in the subject line
-# 6. Wrap the body at 72 characters
-# 7. Use the body to explain what and why vs. how
-#
-#
-#<------------------------- 72 characters ---------------------------->
-# Summarize changes in around 50 characters or less
-# 
-# More detailed explanatory text, if necessary. Wrap it to about 72
-# characters or so. In some contexts, the first line is treated as the
-# subject of the commit and the rest of the text as the body. The
-# blank line separating the summary from the body is critical (unless
-# you omit the body entirely); various tools like `log`, `shortlog`
-# and `rebase` can get confused if you run the two together.
-# 
-# Explain the problem that this commit is solving. Focus on why you
-# are making this change as opposed to how (the code explains that).
-# Are there side effects or other unintuitive consequences of this
-# change? Here's the place to explain them.
-# 
-# Further paragraphs come after blank lines.
-# 
-#  - Bullet points are okay, too
-# 
-#  - Typically a hyphen or asterisk is used for the bullet, preceded
-#    by a single space, with blank lines in between, but conventions
-#    vary here
-# 
-# If you use an issue tracker, put references to them at the bottom,
-# like this:
-# 
-# Resolves: #123
-# See also: #456, #789
+# Example:
+# - Why was the change necessary?
+# - What is the solution or implementation?
+# - Were any alternatives considered?
+# -------------------- FOOTER (Optional) ------------------
+# Add issue references (closes #123, fixes #456)
+# BREAKING CHANGE: Describe breaking API or behavior change
+# ---------------------------------------------------------
+# Lines starting with '#' will be ignored.
+# Remove unused sections before committing.

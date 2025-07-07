@@ -4,19 +4,10 @@ firstName: "Duc"
 fullName: "Duc Le"
 email:
   personal: "anhdle14@icloud.com"
-  work:
-gnupgKeyId:
-  personal:
-  work:
-gnupgKeygrip:
-  personal:
-  work:
-sshcontrolKeygrip:
-  personal:
-  work:
-gitSigningKey:
-  personal:
-  work:
+gnupgKeyId: "AA4B8EC3F971D350482E4E200299AFF9ECBB5169"
+gnupgKeygrip: "FC21903504F7FA176A7221E941075AD36B17BBAC"
+sshcontrolKeygrip: "1046F10A0D49AF60447EFD2E3322BBBA1D3D627F"
+gitSigningKey: "0x89258CF4062DF453"
 
 workDomains:
   - "*.example.com"
